@@ -39,43 +39,43 @@ const MintMNFT = () => {
     }
 
     return (
-        <div>
+        <Box>
             <Header />
-            <Grid p={2} spacing={3} sx={{ height: "100vh" }} container justifyContent="center" alignItems="center">
-                <Grid item>
-                    <Paper>
-                        {/* <Box  
-                            sx={{
-                                display: "flex",
-                                flexDirection: "column",
-                                justifyContent: "center",
-                                alignItems: "center",
-                                color: "#636366"
-                            }}
-                            width={400} 
-                            height={400} 
-                        >
-                            <Icon48PictureOutline fill="#636366" width={100} height={100} />
-                            <Typography>Drag/drope File here</Typography>
-                        </Box> */}
-                        <Box
-                            width={400}
-                            height={400}
-                            sx={{
-                                backgroundImage: `url(${form.image})`,
-                                backgroundColor: "background.paper",
-                                backgroundRepeat: "no-repeat",
-                                backgroundPosition: "center",
-                                backgroundSize: "contain",
-                                borderRadius: 8
-                            }}
-                        >
-                        </Box>
-                    </Paper>
-                </Grid>
-                <Grid item xs={3}>
+            <Stack spacing={2} sx={{ height: "100vh" }} direction="row" justifyContent="center" alignItems="center">
+
+                <Paper>
+                    {/* <Box  
+                                sx={{
+                                    display: "flex",
+                                    flexDirection: "column",
+                                    justifyContent: "center",
+                                    alignItems: "center",
+                                    color: "#636366"
+                                }}
+                                width={400} 
+                                height={400} 
+                            >
+                                <Icon48PictureOutline fill="#636366" width={100} height={100} />
+                                <Typography>Drag/drope File here</Typography>
+                            </Box> */}
+                    <Box
+                        width={400}
+                        height={400}
+                        sx={{
+                            backgroundImage: `url(${form.image})`,
+                            backgroundColor: "background.paper",
+                            backgroundRepeat: "no-repeat",
+                            backgroundPosition: "center",
+                            backgroundSize: "contain",
+                            borderRadius: 8
+                        }}
+                    >
+                    </Box>
+                </Paper>
+
+                <Box width="30%">
                     <Grid container spacing={2} component="form">
-                        <Grid item xs={10}>
+                        <Grid item xs={12}>
                             <Input
                                 label="Name"
                                 name="name"
@@ -84,7 +84,7 @@ const MintMNFT = () => {
                                 placeholder="Name of composition"
                             />
                         </Grid>
-                        <Grid item xs={10}>
+                        <Grid item xs={12}>
                             <Textarea
                                 label="Description"
                                 name="description"
@@ -93,7 +93,7 @@ const MintMNFT = () => {
                                 placeholder="Description"
                             />
                         </Grid>
-                        <Grid item xs={10}>
+                        <Grid item xs={12}>
                             <Input
                                 label="Price of NFT"
                                 name="cost"
@@ -103,7 +103,7 @@ const MintMNFT = () => {
                                 placeholder="1.1 ETH"
                             />
                         </Grid>
-                        <Grid item xs={10}>
+                        <Grid item xs={12}>
                             <Input
                                 label="Price of one week ad"
                                 type="number"
@@ -113,16 +113,16 @@ const MintMNFT = () => {
                                 placeholder="0.11 ETH"
                             />
                         </Grid>
-                        <Grid item xs={10}>
+                        <Grid item xs={12}>
                             <Stack justifyContent="space-between" direction="row">
                                 <Button variant="contained">Publish</Button>
                                 <Button>Save draft</Button>
                             </Stack>
                         </Grid>
                     </Grid>
-                </Grid>
-            </Grid>
-        </div>
+                </Box>
+            </Stack>
+        </Box>
     );
 }
 

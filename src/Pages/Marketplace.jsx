@@ -3,11 +3,9 @@ import { Header } from "../Components/header/Header"
 
 const Marketplace = () => {
     return(
-      <Box>
+      <div>
           <Header />
-            <Grid>
-            </Grid>
-      </Box>
+      </div>
     );
 } 
 

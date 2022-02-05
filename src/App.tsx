@@ -37,6 +37,13 @@ const theme = createTheme({
         }
       }
     },
+    MuiInputBase: {
+      styleOverrides: {
+        root: {
+          padding: 0,
+        }
+      }
+    },
     MuiPaper: {
       styleOverrides: {
         root: {
