@@ -1,8 +1,10 @@
+import { Container, Grid } from "@mui/material";
+
 const Marketplace = () => {
     return(
-        <main>
-            <h1>Marketplace M-NFT</h1>
-        </main>
+        <Grid>
+            <span>Marketplace M-NFT</span>
+        </Grid>
     );
 } 
 

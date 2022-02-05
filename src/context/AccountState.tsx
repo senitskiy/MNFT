@@ -2,8 +2,16 @@ import { createContext, ReactChildren, ReactNode, useContext, useEffect, useStat
 import Web3 from 'web3';
 import Web3Modal from "web3modal";
 
+
 interface Account {
-    address: string | null
+    web3: Web3 | null
+    address: string | null,
+    nfts: Nft[] | null
+}
+
+interface Nft {
+    address: string,
+    costWeek: number
 }
 
 interface AccountContext {
@@ -14,14 +22,17 @@ interface AccountContext {
 
 export const AccountContext = createContext<AccountContext>({
     account: {
-        address: ""
+        web3: null,
+        address: "",
+        nfts: null
     },
     setAccount: () => {},
     connect: () => {}
 });
 
 const AccountState = ({ children }: { children: any }) => {
-    const [account, setAccount] = useState<Account>({ address: null });
+    const [web3, setWeb3] = useState<Web3>();
+    const [account, setAccount] = useState<Account>({ address: null, nfts: null, web3: null });
 
     async function connect() {
         const web3Modal = new Web3Modal({
@@ -35,6 +46,7 @@ const AccountState = ({ children }: { children: any }) => {
         const accounts = await web3.eth.getAccounts();
         setAccount((prev) => ({
             ...prev,
+            web3,
             address: accounts[0]
         }))
     }
