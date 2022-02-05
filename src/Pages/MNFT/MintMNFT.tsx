@@ -5,16 +5,12 @@ import { useCallback, useContext, useEffect, useState } from "react";
 import { Header } from "../../Components/header/Header";
 import { Input } from "../../Components/input/Input"
 import { Textarea } from "../../Components/input/Textarea"
-<<<<<<< HEAD
 import { AccountContext } from "../../context/AccountState"
 import abi from "./contract.json"
 import bs from "./contract_bs.json"
-=======
-import { AccountContext } from "../../context/AccountState";
 import { useDropzone } from 'react-dropzone'
 //@ts-ignore
 import { Web3Storage } from 'web3.storage/dist/bundle.esm.min.js'
->>>>>>> b0a3297e0d0718d0b9849c983abff5f0d0570561
 
 interface MNFTForm {
     image_cid?: string,
@@ -63,10 +59,10 @@ const MintMNFT = () => {
         console.log('stored files with cid:', cid);
     }
 
-    function mintNFT() {
+    async function mintNFT() {
         if(!account) return; 
         if(!account.web3) return;
-        
+
         console.log(account)
         //@ts-ignore
         const Contract = new account.web3.eth.Contract(abi, account.address, {
@@ -78,8 +74,8 @@ const MintMNFT = () => {
             data: bs.object
         }).send({
             from: account!.address!
-        }, (err: any, trc: any) => {
-            console.log(trc, err);
+        }, (err: any, adress_contract: any) => {
+            
         });
     }
 
