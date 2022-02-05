@@ -1,10 +1,13 @@
-import { Container, Grid } from "@mui/material";
+import { Box, Grid } from "@mui/material";
+import { Header } from "../Components/header/Header"
 
 const Marketplace = () => {
     return(
-        <Grid>
-            <span>Marketplace M-NFT</span>
-        </Grid>
+      <Box>
+          <Header />
+            <Grid>
+            </Grid>
+      </Box>
     );
 } 
 
