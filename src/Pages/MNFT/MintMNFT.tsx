@@ -150,7 +150,7 @@ const MintMNFT = () => {
                             />
                         </Grid>
                         <Grid item xs={12}>
-                            <Stack justifyContent="space-between" direction="row">
+                            <Stack spacing={2} direction="row">
                                 <Button variant="contained">Publish</Button>
                                 <Button>Save draft</Button>
                             </Stack>

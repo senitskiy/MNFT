@@ -17,6 +17,9 @@ const theme = createTheme({
     primary: {
       main: "#0085FF"
     },
+    secondary: {
+      main: "#F1F1F1"
+    },
     text: {
       primary: "#FEFEFE",
       secondary: "#F1F1F1",
@@ -33,13 +36,24 @@ const theme = createTheme({
       defaultProps: {
         sx: {
           backgroundColor: "background.paper",
-          borderRadius: 3,
+          borderRadius: 2,
+        }
+      }
+    },
+    MuiInputBase: {
+      defaultProps: {
+        sx: {
+          paddingTop: 8,
         }
       }
     },
     MuiInputLabel: {
+      styleOverrides: {
+        root: {
+          color: "#636366"
+        }
+      },
       defaultProps: {
-        color: 'secondary',
         focused: false
       }
     },
@@ -48,9 +62,16 @@ const theme = createTheme({
         sx: {
           backgroundColor: "background.paper",
           backgroundImage: "none",
-          borderRadius: 8
+          borderRadius: 5
         }
 
+      }
+    },
+    MuiButton: {
+      defaultProps: {
+        sx: {
+          textTransform: "none"
+        }
       }
     }
   }

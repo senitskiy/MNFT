@@ -10,17 +10,22 @@ export const Header = () => {
     return (
         <Box component="div" sx={{
             position: "fixed",
-            justifyContent: "space-between",
+            display: "flex",
+            justifyContent: "center",
             width: "100%"
         }}>
-            <Stack direction="row" p={2} justifyContent="space-between" alignItems="center">
-                <Stack direction="row" spacing={2}>
+            <Stack direction="row" p={2} sx={{ width: "60%" }} justifyContent="space-between" alignItems="center">
+                <Stack direction="row" spacing={2} alignItems="center">
                     <Search />
-                    <Button>Explore</Button>
+                    <Box>
+                        <Button color="secondary" size="small" onClick={() => nav("/")}>Explore</Button>
+                    </Box>
                 </Stack>
 
-                <Stack direction="row" spacing={2}>
-                    <Button onClick={() => nav("/mint")}>Create</Button>
+                <Stack direction="row" spacing={2} alignItems="center">
+                    <Box>
+                        <Button size="small" onClick={() => nav("/mint")}>Create</Button>
+                    </Box>
                     <Avatar />
                 </Stack>
             </Stack>
