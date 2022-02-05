@@ -1,6 +1,6 @@
 {
 	"compiler": {
-		"version": "0.8.11+commit.d7f03943"
+		"version": "0.8.7+commit.e28d00a7"
 	},
 	"language": "Solidity",
 	"output": {
@@ -115,7 +115,7 @@
 	},
 	"settings": {
 		"compilationTarget": {
-			"test.sol": "contract1"
+			"contracts/time.sol": "contract1"
 		},
 		"evmVersion": "london",
 		"libraries": {},
@@ -123,13 +123,13 @@
 			"bytecodeHash": "ipfs"
 		},
 		"optimizer": {
-			"enabled": true,
+			"enabled": false,
 			"runs": 200
 		},
 		"remappings": []
 	},
 	"sources": {
-		"test.sol": {
+		"contracts/time.sol": {
 			"keccak256": "0xb83e553436e005bb9299d33537292bcfebd486f9e1f8458101772e1515c27e02",
 			"license": "MIT",
 			"urls": [

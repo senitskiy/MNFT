@@ -28,38 +28,43 @@ contract M_NFT is ERC721, ERC721URIStorage, Ownable {
     }
 
 
-    function mint(address to) public onlyOwner {
-        super._safeMint(to, _tokenIds.current());
+    function mint() public onlyOwner {
+        address owner = msg.sender;
+        super._safeMint(owner, _tokenIds.current());
         _tokenIds.increment();
     }
 
-    function setTokenURI(uint256 tokenId, string memory tokenURI)
-        public
-        onlyOwner
-    {
-        super._setTokenURI(tokenId, tokenURI);
+    function currentTokenIds() public view returns (uint256) {
+        return _tokenIds.current();
     }
 
-    function setTokenURI_M(uint256 tokenId, string memory tokenURI , string memory tokenURI_M, uint64 _timeStart)
+    // function setTokenURI(uint256 tokenId, string memory tokenURI)
+    //     public
+    //     onlyOwner
+    // {
+    //     super._setTokenURI(tokenId, tokenURI);
+    // }
+
+    function create_M_NFT(uint256 tokenId, string memory tokenURI , string memory tokenURI_M, uint64 _timeStart)
         public
         onlyOwner
-    {
+    {        
         super._setTokenURI_M(tokenId, tokenURI, tokenURI_M, _timeStart);
     }
 
-    function createNFT(uint256 _tokenId, string memory tokenURIOrigin, string memory tokenURI) 
-        external { //} onlyOwner {
-        // returns (uint256)
-    // {
-        // super._safeMint(to, _tokenIds.current());
-        _tokenIds.increment();
-// 
-        // uint256 newItemId = _tokenIds.current();
-        // _mint(owner, _tokenId);
-        // _setTokenURI(_tokenId, tokenURIOrigin, tokenURI);
+//     function createNFT(uint256 _tokenId, string memory tokenURIOrigin, string memory tokenURI) 
+//         external { //} onlyOwner {
+//         // returns (uint256)
+//     // {
+//         // super._safeMint(to, _tokenIds.current());
+//         _tokenIds.increment();
+// // 
+//         // uint256 newItemId = _tokenIds.current();
+//         // _mint(owner, _tokenId);
+//         // _setTokenURI(_tokenId, tokenURIOrigin, tokenURI);
 
-        // return newItemId;
-    }
+//         // return newItemId;
+//     }
 
     function tokenURI(uint256 tokenId)
         public

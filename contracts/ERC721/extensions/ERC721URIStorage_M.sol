@@ -65,10 +65,10 @@ import "../ERC721.sol";
      *
      * - `tokenId` must exist.
      */
-    function _setTokenURI(uint256 tokenId, string memory _tokenURI) internal virtual {
-        require(_exists(tokenId), "ERC721URIStorage: URI set of nonexistent token");
-        _tokenURIs[tokenId] = _tokenURI;
-    }
+    // function _setTokenURI(uint256 tokenId, string memory _tokenURI) internal virtual {
+    //     require(_exists(tokenId), "ERC721URIStorage: URI set of nonexistent token");
+    //     _tokenURIs[tokenId] = _tokenURI;
+    // }
 
 
     function _setTokenURI_M(uint256 tokenId, string memory _tokenURI, string memory _tokenURI_M, uint64 _timeStart) internal virtual {
