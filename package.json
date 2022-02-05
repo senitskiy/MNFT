@@ -7,19 +7,30 @@
     "@emotion/styled": "^11.6.0",
     "@mui/material": "^5.4.0",
     "@vkontakte/icons": "^1.142.0",
+<<<<<<< HEAD
     "fs": "^0.0.1-security",
     "lodash": "^4.17.21",
     "path": "^0.12.7",
+=======
+    "ipfs-car": "^0.6.1",
+    "lodash": "^4.17.21",
+    "nft.storage": "^5.2.3",
+>>>>>>> b0a3297e0d0718d0b9849c983abff5f0d0570561
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-drag-drop-files": "^2.3.2",
+    "react-dropzone": "^11.7.0",
     "react-router-dom": "^6.2.1",
     "react-scripts": "4.0.3",
     "styled-components": "^5.3.3",
     "typescript": "^4.5.5",
     "web-vitals": "^2.1.4",
     "web3": "^1.7.0",
+<<<<<<< HEAD
     "web3-eth-contract": "^1.7.0",
+=======
+    "web3.storage": "^3.5.4",
+>>>>>>> b0a3297e0d0718d0b9849c983abff5f0d0570561
     "web3modal": "^1.9.5"
   },
   "devDependencies": {

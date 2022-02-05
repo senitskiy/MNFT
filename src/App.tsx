@@ -19,7 +19,7 @@ const theme = createTheme({
     },
     text: {
       primary: "#FEFEFE",
-      secondary: "#F1F1F1"
+      secondary: "#F1F1F1",
     },
   },
   typography: {
@@ -30,26 +30,27 @@ const theme = createTheme({
   },
   components: {
     MuiFilledInput: {
-      styleOverrides: {
-        root: {
-          borderRadius: 10,
-          background: "#2E3032"
+      defaultProps: {
+        sx: {
+          backgroundColor: "background.paper",
+          borderRadius: 3,
         }
       }
     },
-    MuiInputBase: {
-      styleOverrides: {
-        root: {
-          padding: 0,
-        }
+    MuiInputLabel: {
+      defaultProps: {
+        color: 'secondary',
+        focused: false
       }
     },
     MuiPaper: {
-      styleOverrides: {
-        root: {
-          borderRadius: 32,
-          background: "#2E3032"
+      defaultProps: {
+        sx: {
+          backgroundColor: "background.paper",
+          backgroundImage: "none",
+          borderRadius: 8
         }
+
       }
     }
   }
