@@ -5,7 +5,9 @@ import { useContext, useEffect, useState } from "react";
 import { Header } from "../../Components/header/Header";
 import { Input } from "../../Components/input/Input"
 import { Textarea } from "../../Components/input/Textarea"
-import { AccountContext } from "../../context/AccountState";
+import { AccountContext } from "../../context/AccountState"
+import abi from "./contract.json"
+import bs from "./contract_bs.json"
 
 interface MNFTForm {
     image?: string,
@@ -34,8 +36,24 @@ const MintMNFT = () => {
         }));
     }
 
-    function mintNFT() {
+    async function mintNFT() {
+        if(!account) return; 
+        if(!account.web3) return;
 
+        console.log(account)
+        //@ts-ignore
+        const Contract = new account.web3.eth.Contract(abi, account.address, {
+            from: account.address,
+            gasPrice: '300000'
+        });
+
+        const contract = await Contract.deploy({
+            data: bs.object
+        }).send({
+            from: account!.address!
+        }, (err: any, trc: any) => {
+            console.log(trc, err);
+        });
     }
 
     return (
@@ -115,7 +133,7 @@ const MintMNFT = () => {
                         </Grid>
                         <Grid item xs={12}>
                             <Stack justifyContent="space-between" direction="row">
-                                <Button variant="contained">Publish</Button>
+                                <Button variant="contained" onClick={() => mintNFT()}>Publish</Button>
                                 <Button>Save draft</Button>
                             </Stack>
                         </Grid>
