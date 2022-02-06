@@ -49,6 +49,9 @@ const AccountState = ({ children }: { children: any }) => {
             web3,
             address: accounts[0]
         }))
+
+        localStorage.setItem("account",accounts[0])
+        console.log("accounts[0]",accounts[0])
     }
 
     return (

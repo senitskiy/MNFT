@@ -26,6 +26,9 @@ const MintMNFT = () => {
     const { account, connect } = useContext(AccountContext);
     const [loadingImage, setLoadingImage] = useState(false);
     const [form, setForm] = useState<MNFTForm>({});
+    const [mintResult, setMintResult] = useState({});
+    const [tokenId, setTokenId] = useState({});
+    const [cid, setCid] = useState({});
 
     function onChange(e: any) {
         const { name, value } = e.target;
@@ -53,10 +56,44 @@ const MintMNFT = () => {
         setLoadingImage(false);
         setForm((prev: MNFTForm) => ({
             ...prev,
-            image: "ipfs://" + cid + "/0",
+            image: "ipfs://" + cid,
             image_cid: cid
         }));
+        setCid(cid);
         console.log('stored files with cid:', cid);
+        console.log('stored files with cid:', "ipfs://" + cid + "/0");
+    }
+
+    async function CreateMNft(){
+        // @ts-ignore
+        const { receiptMint, MNFT } = mintResult
+        // MNFT.methods.create_M_NFT()
+
+        await account.web3!.eth.sendTransaction({
+            to: receiptMint.contractAddress,
+            from: account.address!,
+            data: MNFT.methods.create_M_NFT(
+                tokenId,
+                "ipfs://" + cid + "/0",
+                form.image,
+                1644115473
+            ).encodeABI(),
+            gas: 3000000,
+        })
+    }
+
+    async function Mint(){
+        // @ts-ignore
+        const { receiptMint,MNFT } = mintResult
+        const res = await account.web3!.eth.sendTransaction({
+            to: receiptMint.contractAddress,
+            from: account.address!,
+            data: MNFT.methods.mint().encodeABI(),
+            gas: 3000000,
+        })
+          // @ts-ignore
+        setTokenId(res.logs[0]);
+        console.log("res",res);
     }
 
     async function mintNFT() {
@@ -71,38 +108,39 @@ const MintMNFT = () => {
         //@ts-ignore
         const MNFT = new account.web3.eth.Contract(abi, account.address, {
             from: account.address,
-            gasPrice: "20000000000",
+            gas: 3000000,
         });
 
         MNFT.deploy({
             data: bs.object
         }).send({
             from: account.address!,
-            gasPrice: "20000000000",
+            gas: 3000000,
         }, (err: any, hash) => {
             console.log(hash);
         }).on("receipt", async (receiptMint) => {
-            await account.web3!.eth.sendTransaction({
+            setMintResult({receiptMint:receiptMint,MNFT:MNFT})
+            const res = await account.web3!.eth.sendTransaction({
                 to: receiptMint.contractAddress,
                 from: account.address!,
                 data: MNFT.methods.mint().encodeABI(),
-                gasPrice: "20000000000",
+                gas: 3000000,
             })
+            console.log("res",res);
 
-            await account.web3!.eth.sendTransaction({
-                to: receiptMint.contractAddress,
-                from: account.address!,
-                data: MNFT.methods.create_M_NFT(
-                    1,
-                    form.image,
-                    form.image,
-                    1644115473
-                ).encodeABI(),
-                gasPrice: "20000000000",
-            })
+            // await account.web3!.eth.sendTransaction({
+            //     to: receiptMint.contractAddress,
+            //     from: account.address!,
+            //     data: MNFT.methods.create_M_NFT(
+            //         1,
+            //         form.image,
+            //         form.image,
+            //         1644115473
+            //     ).encodeABI(),
+            //     gas: 3000000,
+            // })
         }).on("error", (err: any) => {
             console.log(err);
-            
         })
 
 
@@ -111,7 +149,7 @@ const MintMNFT = () => {
         //     to: contract_address,
         //     from: account.address!,
         //     data: transaction.encodeABI(),
-        //     gas: 300000
+        //     gas: 33300000
         // };
 
         // console.log(txObject);
@@ -156,6 +194,7 @@ const MintMNFT = () => {
                     >
                         {loadingImage ? <CircularProgress /> : <>
                             <input name="images" {...getInputProps()} />
+                            {/*<input name="images-1" />*/}
                             <Icon48PictureOutline fill="#636366" width={100} height={100} />
                             {isDragActive ?
                                 <Typography>Drag/drope File here</Typography> :
@@ -222,7 +261,10 @@ const MintMNFT = () => {
                         <Grid item xs={12}>
                             <Stack spacing={2} direction="row">
                                 <Button variant="contained" onClick={mintNFT}>Publish</Button>
+                                <Button variant="contained" onClick={mintNFT}>Publish original</Button>
                                 <Button>Save draft</Button>
+                                <Button onClick={Mint}>Mint</Button>
+                                <Button onClick={CreateMNft}>create M-Nft</Button>
                             </Stack>
                         </Grid>
                     </Grid>

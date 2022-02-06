@@ -2,10 +2,15 @@ import { Avatar, Button, Container, Stack } from "@mui/material";
 import { Box } from "@mui/system";
 import { useNavigate } from "react-router-dom";
 import { Search } from "../input/Search";
+import {useEffect, useState} from "react";
 
 export const Header = () => {
 
+    const [id, setId] = useState(undefined);
     const nav = useNavigate();
+    useEffect(()=>{
+        setId(localStorage.getItem("account"))
+    },[])
 
     return (
         <Box component="div" sx={{
@@ -28,6 +33,7 @@ export const Header = () => {
                     </Box>
                     <Avatar />
                 </Stack>
+                {id}
             </Stack>
         </Box>
     );
