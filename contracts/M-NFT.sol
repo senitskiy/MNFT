@@ -23,15 +23,18 @@ contract M_NFT is ERC721, ERC721URIStorage, Ownable {
     // }
 
 
-    constructor() ERC721("Dima Senitskiy", "DS") {
+    constructor() ERC721("Dim Sen", "DS") {
         // owner = msg.sender;
     }
 
 
-    function mint() public onlyOwner {
+    function mint() public onlyOwner returns (uint256) {
         address owner = msg.sender;
         super._safeMint(owner, _tokenIds.current());
         _tokenIds.increment();
+        uint256 tokenId = _tokenIds.current();
+        return tokenId;
+        //  _tokenIds.current();
     }
 
     function currentTokenIds() public view returns (uint256) {
@@ -65,6 +68,8 @@ contract M_NFT is ERC721, ERC721URIStorage, Ownable {
 
 //         // return newItemId;
 //     }
+
+
 
     function tokenURI(uint256 tokenId)
         public

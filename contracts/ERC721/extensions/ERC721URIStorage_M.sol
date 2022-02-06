@@ -24,6 +24,30 @@ import "../ERC721.sol";
     mapping(uint256 => MyStruct) private _tokenURIs_M;
 
 
+    function uri(uint256 _id) public view returns (string memory) {
+        MyStruct memory _tokenURI_M = _tokenURIs_M[_id];
+        string memory base = _baseURI();
+        
+        if ((bytes(base).length != 0) &&
+                    (block.timestamp < _tokenURI_M._timeStart + 1 minutes)) {
+            return _tokenURI_M._tokenURI_origin;
+        } else if ((bytes(base).length == 0) && 
+                    (block.timestamp >= _tokenURI_M._timeStart + 1 minutes)) {
+            return _tokenURI_M._tokenURI_modified;
+        }
+
+        if (bytes(_tokenURI_M._tokenURI_origin).length > 0 &&
+                    block.timestamp < _tokenURI_M._timeStart + 1 minutes) {
+            return string(abi.encodePacked(base, _tokenURI_M._tokenURI_origin));
+        } else if (bytes(_tokenURI_M._tokenURI_origin).length > 0 &&
+                    block.timestamp >= _tokenURI_M._timeStart + 1 minutes)
+        {
+            return string(abi.encodePacked(base, _tokenURI_M._tokenURI_modified));                    
+        }
+        // return templateURI;
+        // return tokenURI(tokenId);
+    }
+
     /**
      * @dev See {IERC721Metadata-tokenURI}.
      */
