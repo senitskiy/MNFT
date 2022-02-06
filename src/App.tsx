@@ -30,6 +30,14 @@ const theme = createTheme({
       fontSize: 48,
       color: "text.primary"
     },
+    h4: {
+      fontSize: 18,
+      color: "text.primary"
+    },
+    subtitle2: {
+      fontSize: 14,
+      color: "#636366"
+    }
   },
   components: {
     MuiFilledInput: {
@@ -37,7 +45,7 @@ const theme = createTheme({
         sx: {
           backgroundColor: "background.paper",
           borderRadius: 2,
-        }
+        },
       }
     },
     MuiInputBase: {

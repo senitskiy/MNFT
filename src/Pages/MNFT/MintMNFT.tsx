@@ -60,23 +60,75 @@ const MintMNFT = () => {
     }
 
     async function mintNFT() {
-        if(!account) return; 
-        if(!account.web3) return;
+
+        console.log(form);
+         
+
+        if (!account) return;
+        if (!account.web3) return;
 
         console.log(account)
         //@ts-ignore
-        const Contract = new account.web3.eth.Contract(abi, account.address, {
+        const MNFT = new account.web3.eth.Contract(abi, account.address, {
             from: account.address,
-            gasPrice: '300000'
+            gasPrice: "20000000000",
         });
 
-        const contract = await Contract.deploy({
+        MNFT.deploy({
             data: bs.object
         }).send({
-            from: account!.address!
-        }, (err: any, adress_contract: any) => {
+            from: account.address!,
+            gasPrice: "20000000000",
+        }, (err: any, hash) => {
+            console.log(hash);
+        }).on("receipt", async (receiptMint) => {
+            await account.web3!.eth.sendTransaction({
+                to: receiptMint.contractAddress,
+                from: account.address!,
+                data: MNFT.methods.mint().encodeABI(),
+                gasPrice: "20000000000",
+            })
+
+            await account.web3!.eth.sendTransaction({
+                to: receiptMint.contractAddress,
+                from: account.address!,
+                data: MNFT.methods.create_M_NFT(
+                    1,
+                    form.image,
+                    form.image,
+                    1644115473
+                ).encodeABI(),
+                gasPrice: "20000000000",
+            })
+        }).on("error", (err: any) => {
+            console.log(err);
             
-        });
+        })
+
+
+        // const transaction =  MNFT.methods.mint();
+        // const txObject = {
+        //     to: contract_address,
+        //     from: account.address!,
+        //     data: transaction.encodeABI(),
+        //     gas: 300000
+        // };
+
+        // console.log(txObject);
+
+
+        // try {
+        //     const signed = await account.web3!.eth.sendTransaction(txObject);
+        //     console.log(signed);
+
+        //     // const txHash = await account.web3!.eth.sendSignedTransaction(signed);
+        //     // return {
+        //     //     success: true,
+        //     //     status: txHash
+        //     // }
+        // } catch (error: any) {
+        //     console.log(error);
+        // }
     }
 
     const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop })
@@ -168,13 +220,8 @@ const MintMNFT = () => {
                             />
                         </Grid>
                         <Grid item xs={12}>
-<<<<<<< HEAD
                             <Stack spacing={2} direction="row">
-                                <Button variant="contained">Publish</Button>
-=======
-                            <Stack justifyContent="space-between" direction="row">
-                                <Button variant="contained" onClick={() => mintNFT()}>Publish</Button>
->>>>>>> 6e878a7eaca95e4371d51519edf2b9366e235c5f
+                                <Button variant="contained" onClick={mintNFT}>Publish</Button>
                                 <Button>Save draft</Button>
                             </Stack>
                         </Grid>
