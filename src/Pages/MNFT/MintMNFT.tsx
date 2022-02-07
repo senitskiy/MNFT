@@ -172,12 +172,11 @@ const MintMNFT = () => {
     const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop })
 
     if (!account.web3) {
-        return <button onClick={connect}>connect Metamask</button>
+        return <button style={{ marginTop: 90 }} onClick={connect}>connect Metamask</button>
     }
 
     return (
         <Box>
-            <Header />
             <Stack spacing={2} sx={{ height: "100vh" }} direction="row" justifyContent="center" alignItems="center">
                 <Paper>
                     {!form.image ? <Box

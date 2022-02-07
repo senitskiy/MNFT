@@ -1,4 +1,4 @@
-import { createTheme, Grid, ThemeProvider } from '@mui/material';
+import { createTheme, Grid, ThemeProvider, styled } from '@mui/material';
 import React from 'react';
 import { Route, Routes } from "react-router-dom";
 import Web3 from 'web3';
@@ -6,78 +6,62 @@ import './App.css';
 
 import MintMNFT from "./Pages/MNFT/MintMNFT";
 import Marketplace from "./Pages/Marketplace";
+import { Header } from './Components/header/Header';
 
 const theme = createTheme({
+  shape: {
+    borderRadius: 8,
+  },
+  spacing: 4,
   palette: {
     mode: "dark",
     background: {
       default: "#1C1C1E",
       paper: "#2E3032",
     },
+    common: {
+      white: "#FEFEFE",
+      black: "#1C1C1E"
+    },
+    grey: {
+      900: "#2E3032",
+      700: "#414144",
+      500: "#636366",
+      50: "#F1F1F1"
+    },
     primary: {
       main: "#0085FF"
     },
     secondary: {
-      main: "#F1F1F1"
+      main: "#FEFEFE"
     },
     text: {
       primary: "#FEFEFE",
-      secondary: "#F1F1F1",
+      secondary: "#636366",
     },
   },
   typography: {
     h1: {
       fontSize: 48,
-      color: "text.primary"
+      fontWeight: 600,
     },
     h4: {
-      fontSize: 18,
-      color: "text.primary"
+      fontSize: 24,
+      fontWeight: 600,
     },
-    subtitle2: {
-      fontSize: 14,
-      color: "#636366"
+    body1: {
+      fontSize: 17,
+      fontWeight: 300,
+    },
+    subtitle1: {
+      fontWeight: 300,
+      fontSize: 17
     }
   },
   components: {
-    MuiFilledInput: {
-      defaultProps: {
-        sx: {
-          backgroundColor: "background.paper",
-          borderRadius: 2,
-        },
-      }
-    },
-    MuiInputBase: {
-      defaultProps: {
-        sx: {
-          paddingTop: 8,
-        }
-      }
-    },
-    MuiInputLabel: {
+    MuiButton: {
       styleOverrides: {
         root: {
-          color: "#636366"
-        }
-      },
-      defaultProps: {
-        focused: false
-      }
-    },
-    MuiPaper: {
-      defaultProps: {
-        sx: {
-          backgroundColor: "background.paper",
-          backgroundImage: "none",
-          borderRadius: 5
-        }
-
-      }
-    },
-    MuiButton: {
-      defaultProps: {
-        sx: {
           textTransform: "none"
         }
       }
@@ -85,13 +69,17 @@ const theme = createTheme({
   }
 });
 
+const Offset = styled('div')(({ theme }) => theme.mixins.toolbar);
+
 function App() {
   return (
     <ThemeProvider theme={theme}>
-      <Grid component="main" sx={{ height: "100vh", backgroundColor: "background.default" }}>
+      <Grid component="main" sx={{ height: "100%", backgroundColor: "background.default" }}>
+        <Header />
+        <Offset />
         <Routes>
           <Route path='/' element={<Marketplace />} />
-          <Route path='/mint' element={<MintMNFT />} />
+          <Route path='/create' element={<MintMNFT />} />
         </Routes>
       </Grid>
     </ThemeProvider>

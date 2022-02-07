@@ -1,25 +1,18 @@
-import { Avatar, Button, Container, Stack } from "@mui/material";
-import { Box } from "@mui/system";
+import { Avatar, Button, AppBar, Stack, Toolbar, styled, InputBase, Box } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import { Search } from "../input/Search";
-import {useEffect, useState} from "react";
-
+import { useEffect, useState } from "react";
+import Search from "../input/Search";
 export const Header = () => {
 
     const [id, setId] = useState(undefined);
     const nav = useNavigate();
-    useEffect(()=>{
+    useEffect(() => {
         setId(localStorage.getItem("account"))
-    },[])
+    }, [])
 
     return (
-        <Box component="div" sx={{
-            position: "fixed",
-            display: "flex",
-            justifyContent: "center",
-            width: "100%"
-        }}>
-            <Stack direction="row" p={2} sx={{ width: "60%" }} justifyContent="space-between" alignItems="center">
+        <AppBar position="fixed" elevation={0} color="transparent" enableColorOnDark>
+            {/* <Stack direction="row" p={2} sx={{ width: "60%" }} justifyContent="space-between" alignItems="center">
                 <Stack direction="row" spacing={2} alignItems="center">
                     <Search />
                     <Box>
@@ -34,7 +27,12 @@ export const Header = () => {
                     <Avatar />
                 </Stack>
                 {id}
-            </Stack>
-        </Box>
+            </Stack> */}
+            <Toolbar>
+                    <Search placeholder="Search NFTs" />
+                    <Button variant="text" onClick={() => nav("/")}>Explore</Button>
+                    <Button variant="text" color="secondary" onClick={() => nav("/create")}>Create</Button>
+            </Toolbar>
+        </AppBar>
     );
 }
