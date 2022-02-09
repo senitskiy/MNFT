@@ -1,5 +1,6 @@
 import React from "react";
 import { Paper as MuiPaper, Box, Stack, Avatar, Typography, Button, Select, MenuItem, FormControl, InputLabel, styled } from "@mui/material";
+import { CellUserProps } from './CardMNFT.d';
 
 const Paper = styled(MuiPaper)(({ theme }) => ({
     borderRadius: theme.shape.borderRadius,
@@ -13,13 +14,13 @@ const TypographyNickname = styled(Typography)({
     textOverflow: 'ellipsis'
 });
 
-const CellUser = () => {
+const CellUser = ({ name, image, type = 'master' }: CellUserProps) => {
     return (
         <Stack maxWidth={150} spacing={1}>
-            <Typography variant="subtitle2" color="text.secondary">AD LORD</Typography>
+            <Typography variant="subtitle2" color="text.secondary">{type === 'master' ? 'Master' : 'Sponsor'}</Typography>
             <Stack direction="row" alignItems="center" spacing={1} justifyContent="center">
-                <Avatar src="https://img.rarible.com/prod/image/upload/t_avatar_big/prod-users/0x0271e8197f31a493629baab075295b8e5fa33aad/avatar/QmYmAr3DjoDaozskiFD7g8YJ9sNd8JMmFdACfhFALNCm32" sx={{ height: 36, width: 36 }} />
-                <TypographyNickname>@mikeandpicture</TypographyNickname>
+                <Avatar src={image} sx={{ height: 36, width: 36 }} />
+                <TypographyNickname>{name}</TypographyNickname>
             </Stack>
         </Stack>
     );
@@ -28,7 +29,7 @@ const CellUser = () => {
 export const CardMNFT = () => {
     return (
         <Paper sx={{
-            borderRadius: 6
+            borderRadius: 2
         }}>
             <Box p={2} component="div" sx={{
                 display: "flex",
@@ -37,8 +38,15 @@ export const CardMNFT = () => {
                 width: 300
             }}>
                 <Stack direction="row" spacing={1}>
-                    <CellUser />
-                    <CellUser />
+                    <CellUser 
+                        name="@semgoSE" 
+                        image="https://img.rarible.com/prod/image/upload/t_avatar_big/prod-users/0x0271e8197f31a493629baab075295b8e5fa33aad/avatar/QmYmAr3DjoDaozskiFD7g8YJ9sNd8JMmFdACfhFALNCm32"  
+                    />
+                    <CellUser 
+                        name="@mediacontent"
+                        type="sponsor"
+                        image="https://img.rarible.com/prod/image/upload/t_avatar_big/prod-users/0x0271e8197f31a493629baab075295b8e5fa33aad/avatar/QmYmAr3DjoDaozskiFD7g8YJ9sNd8JMmFdACfhFALNCm32" 
+                    />
                 </Stack>
                 <Box
                     mt={2}
@@ -50,7 +58,7 @@ export const CardMNFT = () => {
                         backgroundRepeat: "no-repeat",
                         backgroundPosition: "center",
                         backgroundSize: "contain",
-                        borderRadius: 6
+                        borderRadius: 2
                     }}
                 >
                 </Box>

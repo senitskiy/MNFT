@@ -10,9 +10,9 @@ import bs from "./contract_bs.json"
 import { useDropzone } from 'react-dropzone'
 //@ts-ignore
 import { Web3Storage } from 'web3.storage/dist/bundle.esm.min.js'
+import { ProcessedCreateNft } from './../../../Modals/ProcessedCreateNft';
 
-interface MNFTForm {
-    image_cid?: string,
+export interface MNFTForm {
     image?: string,
     name?: string,
     description?: string,
@@ -23,6 +23,7 @@ interface MNFTForm {
 
 const CreateMNFT = () => {
     const { account, connect } = useContext(AccountContext);
+    const [processedCreateMnft, setProcessedCreateMnft] = useState(false);
     const [loadingImage, setLoadingImage] = useState(false);
     const [form, setForm] = useState<MNFTForm>({});
     const [mintResult, setMintResult] = useState({});
@@ -97,50 +98,53 @@ const CreateMNFT = () => {
 
     async function mintNFT() {
 
-        console.log(form);
+        setProcessedCreateMnft(true);
 
 
-        if (!account) return;
-        if (!account.web3) return;
+        // console.log(form);
 
-        console.log(account)
-        //@ts-ignore
-        const MNFT = new account.web3.eth.Contract(abi, account.address, {
-            from: account.address,
-            gas: 3000000,
-        });
 
-        MNFT.deploy({
-            data: bs.object
-        }).send({
-            from: account.address!,
-            gas: 3000000,
-        }, (err: any, hash) => {
-            console.log(hash);
-        }).on("receipt", async (receiptMint) => {
-            setMintResult({ receiptMint: receiptMint, MNFT: MNFT })
-            const res = await account.web3!.eth.sendTransaction({
-                to: receiptMint.contractAddress,
-                from: account.address!,
-                data: MNFT.methods.mint().encodeABI(),
-                gas: 3000000,
-            })
-            console.log("res", res);
+        // if (!account) return;
+        // if (!account.web3) return;
 
-            // await account.web3!.eth.sendTransaction({
-            //     to: receiptMint.contractAddress,
-            //     from: account.address!,
-            //     data: MNFT.methods.create_M_NFT(
-            //         1,
-            //         form.image,
-            //         form.image,
-            //         1644115473
-            //     ).encodeABI(),
-            //     gas: 3000000,
-            // })
-        }).on("error", (err: any) => {
-            console.log(err);
-        })
+        // console.log(account)
+        // //@ts-ignore
+        // const MNFT = new account.web3.eth.Contract(abi, account.address, {
+        //     from: account.address,
+        //     gas: 3000000,
+        // });
+
+        // MNFT.deploy({
+        //     data: bs.object
+        // }).send({
+        //     from: account.address!,
+        //     gas: 3000000,
+        // }, (err: any, hash) => {
+        //     console.log(hash);
+        // }).on("receipt", async (receiptMint) => {
+        //     setMintResult({ receiptMint: receiptMint, MNFT: MNFT })
+        //     const res = await account.web3!.eth.sendTransaction({
+        //         to: receiptMint.contractAddress,
+        //         from: account.address!,
+        //         data: MNFT.methods.mint().encodeABI(),
+        //         gas: 3000000,
+        //     })
+        //     console.log("res", res);
+
+        //     // await account.web3!.eth.sendTransaction({
+        //     //     to: receiptMint.contractAddress,
+        //     //     from: account.address!,
+        //     //     data: MNFT.methods.create_M_NFT(
+        //     //         1,
+        //     //         form.image,
+        //     //         form.image,
+        //     //         1644115473
+        //     //     ).encodeABI(),
+        //     //     gas: 3000000,
+        //     // })
+        // }).on("error", (err: any) => {
+        //     console.log(err);
+        // })
 
 
         // const transaction =  MNFT.methods.mint();
@@ -205,7 +209,7 @@ const CreateMNFT = () => {
                             width={400}
                             height={400}
                             sx={{
-                                backgroundImage: `url(https://ipfs.io/ipfs/${form.image_cid}/0)`,
+                                backgroundImage: `url(https://ipfs.io/ipfs/${form.image}/0)`,
                                 backgroundColor: "background.paper",
                                 backgroundRepeat: "no-repeat",
                                 backgroundPosition: "center",
@@ -272,6 +276,8 @@ const CreateMNFT = () => {
                     </Grid>
                 </Box>
             </Stack>
+
+            <ProcessedCreateNft payload={form} open={processedCreateMnft} onClose={() => setProcessedCreateMnft(false)} />
         </Box>
     );
 }
