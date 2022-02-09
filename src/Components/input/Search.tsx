@@ -3,7 +3,7 @@ import { Icon28SearchOutline } from "@vkontakte/icons";
 
 const SearchContainer = styled('div')(({ theme }) => ({
     position: 'relative',
-    borderRadius: theme.shape.borderRadius,
+    borderRadius: 10,
     backgroundColor: theme.palette.background.paper,
     '&:hover': {
         backgroundColor: theme.palette.background.paper

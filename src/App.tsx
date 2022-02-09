@@ -4,13 +4,13 @@ import { Route, Routes } from "react-router-dom";
 import Web3 from 'web3';
 import './App.css';
 
-import MintMNFT from "./Pages/MNFT/MintMNFT";
+import CreateMNFT from "./Pages/MNFT/create/CreateMNFT";
 import Marketplace from "./Pages/Marketplace";
 import { Header } from './Components/header/Header';
 
 const theme = createTheme({
   shape: {
-    borderRadius: 24,
+    borderRadius: 4,
   },
   spacing: 8,
   palette: {
@@ -56,13 +56,20 @@ const theme = createTheme({
     subtitle1: {
       fontWeight: 300,
       fontSize: 17
-    }
+    },
   },
   components: {
     MuiButton: {
       styleOverrides: {
         root: {
           textTransform: "none"
+        }
+      }
+    },
+    MuiPaper: {
+      styleOverrides: {
+        root: {
+          backgroundImage: "none",  
         }
       }
     }
@@ -74,12 +81,12 @@ const Offset = styled('div')(({ theme }) => theme.mixins.toolbar);
 function App() {
   return (
     <ThemeProvider theme={theme}>
-      <Grid component="main" sx={{ height: "100%", backgroundColor: "background.default" }}>
+      <Grid component="main" sx={{ height: "100vh", backgroundColor: "background.default" }}>
         <Header />
         <Offset />
         <Routes>
           <Route path='/' element={<Marketplace />} />
-          <Route path='/create' element={<MintMNFT />} />
+          <Route path='/create' element={<CreateMNFT />} />
         </Routes>
       </Grid>
     </ThemeProvider>

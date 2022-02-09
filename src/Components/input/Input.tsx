@@ -1,29 +1,27 @@
 import React from "react";
 import { noop } from "lodash";
-import { TextField } from "@mui/material";
+import { TextField, styled, TextFieldProps } from "@mui/material";
 
-interface InputProps {
-    label?: string,
-    placeholder?: string,
-    name?: string,
-    value?: any,
-    onChange?: (e: any) => void,
-    type?: string
-}
-
-export const Input = ({ label, placeholder, name, value, onChange, type = "text" }: InputProps) => {
+export const Input = (props: TextFieldProps) => {
     return(
         <TextField
-            name={name}
+            {...props}
+            variant="filled"
+            InputProps={{ 
+                disableUnderline: true, 
+                sx: ({ palette, shape }) => ({
+                    borderRadius: shape.borderRadius,
+                    backgroundColor: palette.background.paper,
+                    backgroundImage: "none"
+                }) 
+            }}
+            InputLabelProps={{
+                sx: ({ palette }) => ({ color: palette.text.secondary }),
+                focused: false
+            }}
+            focused
             fullWidth
-            variant="filled" 
-            label={label} 
-            placeholder={placeholder}
-            value={value}
-            onChange={onChange}
-            type={type} 
-            InputLabelProps={{ shrink: true }} 
-            InputProps={{ disableUnderline: true }} 
+            autoComplete='off'
         />
-    );   
+    );
 }

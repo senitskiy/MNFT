@@ -7,15 +7,29 @@ const Paper = styled(MuiPaper)(({ theme }) => ({
     backgroundColor: theme.palette.grey[900],
 }))
 
-const NicknameTypography = styled(Typography)({
+const TypographyNickname = styled(Typography)({
     whiteSpace: 'nowrap',
     overflow: 'hidden',
     textOverflow: 'ellipsis'
 });
 
+const CellUser = () => {
+    return (
+        <Stack maxWidth={150} spacing={1}>
+            <Typography variant="subtitle2" color="text.secondary">AD LORD</Typography>
+            <Stack direction="row" alignItems="center" spacing={1} justifyContent="center">
+                <Avatar src="https://img.rarible.com/prod/image/upload/t_avatar_big/prod-users/0x0271e8197f31a493629baab075295b8e5fa33aad/avatar/QmYmAr3DjoDaozskiFD7g8YJ9sNd8JMmFdACfhFALNCm32" sx={{ height: 36, width: 36 }} />
+                <TypographyNickname>@mikeandpicture</TypographyNickname>
+            </Stack>
+        </Stack>
+    );
+}
+
 export const CardMNFT = () => {
     return (
-        <Paper>
+        <Paper sx={{
+            borderRadius: 6
+        }}>
             <Box p={2} component="div" sx={{
                 display: "flex",
                 flexDirection: "column",
@@ -23,32 +37,20 @@ export const CardMNFT = () => {
                 width: 300
             }}>
                 <Stack direction="row" spacing={1}>
-                    <Stack maxWidth={150} spacing={1}>
-                        <Typography variant="subtitle2">AD LORD</Typography>
-                        <Stack direction="row" alignItems="center" spacing={1} justifyContent="center">
-                            <Avatar sx={{ height: 36, width: 36 }} />
-                            <NicknameTypography>@mikeandpicture</NicknameTypography>
-                        </Stack>
-                    </Stack>
-                    <Stack maxWidth={150} spacing={1}>
-                        <Typography variant="subtitle2">Sponsor</Typography>
-                        <Stack direction="row" alignItems="center" spacing={1} justifyContent="center">
-                            <Avatar sx={{ height: 36, width: 36 }} />
-                            <NicknameTypography>@mikeandpicture</NicknameTypography>
-                        </Stack>
-                    </Stack>
+                    <CellUser />
+                    <CellUser />
                 </Stack>
                 <Box
                     mt={2}
-                    width={280}
-                    height={280}
+                    width={300}
+                    height={300}
                     sx={{
                         backgroundImage: `url(https://ipfs.io/ipfs/bafybeig7nf2glzhanp5ecwh42qjv6cp42tj77u4sjdigox623hlap3n3xe/0)`,
                         backgroundColor: "#414144",
                         backgroundRepeat: "no-repeat",
                         backgroundPosition: "center",
                         backgroundSize: "contain",
-                        borderRadius: 1
+                        borderRadius: 6
                     }}
                 >
                 </Box>

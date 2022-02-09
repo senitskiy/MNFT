@@ -1,11 +1,10 @@
 import { Button, CircularProgress, FilledInput, Grid, Paper, Stack, TextareaAutosize, TextField, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import { Icon48PictureOutline } from "@vkontakte/icons";
-import { useCallback, useContext, useEffect, useState } from "react";
-import { Header } from "../../Components/header/Header";
-import { Input } from "../../Components/input/Input"
-import { Textarea } from "../../Components/input/Textarea"
-import { AccountContext } from "../../context/AccountState"
+import { useContext, useState } from "react";
+import { Login } from "../../../Components/login/Login";
+import { Input } from "../../../Components/input/Input"
+import { AccountContext } from "../../../context/AccountState"
 import abi from "./contract.json"
 import bs from "./contract_bs.json"
 import { useDropzone } from 'react-dropzone'
@@ -22,7 +21,7 @@ interface MNFTForm {
 }
 
 
-const MintMNFT = () => {
+const CreateMNFT = () => {
     const { account, connect } = useContext(AccountContext);
     const [loadingImage, setLoadingImage] = useState(false);
     const [form, setForm] = useState<MNFTForm>({});
@@ -64,7 +63,7 @@ const MintMNFT = () => {
         console.log('stored files with cid:', "ipfs://" + cid + "/0");
     }
 
-    async function CreateMNft(){
+    async function CreateMNft() {
         // @ts-ignore
         const { receiptMint, MNFT } = mintResult
         // MNFT.methods.create_M_NFT()
@@ -82,24 +81,24 @@ const MintMNFT = () => {
         })
     }
 
-    async function Mint(){
+    async function Mint() {
         // @ts-ignore
-        const { receiptMint,MNFT } = mintResult
+        const { receiptMint, MNFT } = mintResult
         const res = await account.web3!.eth.sendTransaction({
             to: receiptMint.contractAddress,
             from: account.address!,
             data: MNFT.methods.mint().encodeABI(),
             gas: 3000000,
         })
-          // @ts-ignore
+        // @ts-ignore
         setTokenId(res.logs[0]);
-        console.log("res",res);
+        console.log("res", res);
     }
 
     async function mintNFT() {
 
         console.log(form);
-         
+
 
         if (!account) return;
         if (!account.web3) return;
@@ -119,14 +118,14 @@ const MintMNFT = () => {
         }, (err: any, hash) => {
             console.log(hash);
         }).on("receipt", async (receiptMint) => {
-            setMintResult({receiptMint:receiptMint,MNFT:MNFT})
+            setMintResult({ receiptMint: receiptMint, MNFT: MNFT })
             const res = await account.web3!.eth.sendTransaction({
                 to: receiptMint.contractAddress,
                 from: account.address!,
                 data: MNFT.methods.mint().encodeABI(),
                 gas: 3000000,
             })
-            console.log("res",res);
+            console.log("res", res);
 
             // await account.web3!.eth.sendTransaction({
             //     to: receiptMint.contractAddress,
@@ -171,14 +170,14 @@ const MintMNFT = () => {
 
     const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop })
 
-    if (!account.web3) {
-        return <button style={{ marginTop: 90 }} onClick={connect}>connect Metamask</button>
+    if (!account) {
+        return <Login />
     }
 
     return (
         <Box>
-            <Stack spacing={2} sx={{ height: "100vh" }} direction="row" justifyContent="center" alignItems="center">
-                <Paper>
+            <Stack spacing={2} sx={{ height: "calc(100vh - 64px)" }} direction="row" justifyContent="center" alignItems="center">
+                <Paper sx={{ borderRadius: 10 }}>
                     {!form.image ? <Box
                         sx={{
                             display: "flex",
@@ -189,6 +188,7 @@ const MintMNFT = () => {
                         }}
                         width={400}
                         height={400}
+                        p={1}
                         {...getRootProps()}
                     >
                         {loadingImage ? <CircularProgress /> : <>
@@ -196,8 +196,8 @@ const MintMNFT = () => {
                             {/*<input name="images-1" />*/}
                             <Icon48PictureOutline fill="#636366" width={100} height={100} />
                             {isDragActive ?
-                                <Typography>Drag/drope File here</Typography> :
-                                <Typography>Drag 'n' drop some files here, or click to select files</Typography>
+                                <Typography p={1}>Drag/drope File here</Typography> :
+                                <Typography p={1} align="center">Drag 'n' drop some files here, or click to select files</Typography>
                             }
                         </>}
                     </Box> :
@@ -229,12 +229,15 @@ const MintMNFT = () => {
                             />
                         </Grid>
                         <Grid item xs={12}>
-                            <Textarea
+                            <Input
                                 label="Description"
                                 name="description"
                                 onChange={onChange}
                                 value={form.description}
                                 placeholder="Description"
+                                multiline
+                                maxRows={4}
+                                minRows={4}
                             />
                         </Grid>
                         <Grid item xs={12}>
@@ -260,10 +263,10 @@ const MintMNFT = () => {
                         <Grid item xs={12}>
                             <Stack spacing={2} direction="row">
                                 <Button variant="contained" onClick={mintNFT}>Publish</Button>
-                                <Button variant="contained" onClick={mintNFT}>Publish original</Button>
+                                {/* <Button variant="contained" onClick={mintNFT}>Publish original</Button> */}
                                 <Button>Save draft</Button>
-                                <Button onClick={Mint}>Mint</Button>
-                                <Button onClick={CreateMNft}>create M-Nft</Button>
+                                {/* <Button onClick={Mint}>Mint</Button>
+                                <Button onClick={CreateMNft}>create M-Nft</Button> */}
                             </Stack>
                         </Grid>
                     </Grid>
@@ -273,4 +276,4 @@ const MintMNFT = () => {
     );
 }
 
-export default MintMNFT;
+export default CreateMNFT;
