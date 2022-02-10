@@ -54,14 +54,15 @@ const CreateMNFT = () => {
         });
         const cid = await client.put(files)
         setLoadingImage(false);
-        setForm((prev: MNFTForm) => ({
+        const ipfs_json = setForm((prev: MNFTForm) => ({
             ...prev,
             image: "ipfs://" + cid,
             image_cid: cid
         }));
+        await client.put(ipfs_json)
         setCid(cid);
         console.log('stored files with cid:', cid);
-        console.log('stored files with cid:', "ipfs://" + cid + "/0");
+        console.log('stored files with cid:', "ipfs://" + cid);
     }
 
     async function CreateMNft() {
@@ -71,7 +72,7 @@ const CreateMNFT = () => {
 
         await account.web3!.eth.sendTransaction({
             to: receiptMint.contractAddress,
-            from: account.address!,
+            from: account.address,
             data: MNFT.methods.create_M_NFT(
                 tokenId,
                 "ipfs://" + cid + "/0",
