@@ -1,51 +1,68 @@
 import React from "react";
-import { Paper, Box, Stack, Avatar, Typography, Button, Select, MenuItem, FormControl, InputLabel } from "@mui/material";
+import { Paper as MuiPaper, Box, Stack, Avatar, Typography, Button, Select, MenuItem, FormControl, InputLabel, styled } from "@mui/material";
+import { CellUserProps } from './CardMNFT.d';
+
+const Paper = styled(MuiPaper)(({ theme }) => ({
+    borderRadius: theme.shape.borderRadius,
+    backgroundImage: "none",
+    backgroundColor: theme.palette.grey[900],
+}))
+
+const TypographyNickname = styled(Typography)({
+    whiteSpace: 'nowrap',
+    overflow: 'hidden',
+    textOverflow: 'ellipsis'
+});
+
+const CellUser = ({ name, image, type = 'master' }: CellUserProps) => {
+    return (
+        <Stack maxWidth={150} spacing={1}>
+            <Typography variant="subtitle2" color="text.secondary">{type === 'master' ? 'Master' : 'Sponsor'}</Typography>
+            <Stack direction="row" alignItems="center" spacing={1} justifyContent="center">
+                <Avatar src={image} sx={{ height: 36, width: 36 }} />
+                <TypographyNickname>{name}</TypographyNickname>
+            </Stack>
+        </Stack>
+    );
+}
 
 export const CardMNFT = () => {
     return (
         <Paper sx={{
-            backgroundColor: "#2E3032",
-            backgroundImage: "none",
-            borderRadius: 4,
-            p: 2
+            borderRadius: 2
         }}>
-            <Box component="div" sx={{
+            <Box p={2} component="div" sx={{
                 display: "flex",
                 flexDirection: "column",
-                justifyContent: "center",
                 alignItems: "center",
+                width: 300
             }}>
                 <Stack direction="row" spacing={1}>
-                    <Stack spacing={1}>
-                        <Typography variant="subtitle2">AD LORD</Typography>
-                        <Stack direction="row" alignItems="center" spacing={1} justifyContent="center">
-                            <Avatar sx={{ height: 36, width: 36 }} />
-                            <Typography>@mikeandpicture</Typography>
-                        </Stack>
-                    </Stack>
-                    <Stack spacing={1}>
-                        <Typography variant="subtitle2">Sponsor</Typography>
-                        <Stack direction="row" alignItems="center" spacing={1} justifyContent="center">
-                            <Avatar sx={{ height: 36, width: 36 }} />
-                            <Typography>@mikeandpicture</Typography>
-                        </Stack>
-                    </Stack>
+                    <CellUser 
+                        name="@semgoSE" 
+                        image="https://img.rarible.com/prod/image/upload/t_avatar_big/prod-users/0x0271e8197f31a493629baab075295b8e5fa33aad/avatar/QmYmAr3DjoDaozskiFD7g8YJ9sNd8JMmFdACfhFALNCm32"  
+                    />
+                    <CellUser 
+                        name="@mediacontent"
+                        type="sponsor"
+                        image="https://img.rarible.com/prod/image/upload/t_avatar_big/prod-users/0x0271e8197f31a493629baab075295b8e5fa33aad/avatar/QmYmAr3DjoDaozskiFD7g8YJ9sNd8JMmFdACfhFALNCm32" 
+                    />
                 </Stack>
                 <Box
                     mt={2}
-                    width={320}
-                    height={320}
+                    width={300}
+                    height={300}
                     sx={{
                         backgroundImage: `url(https://ipfs.io/ipfs/bafybeig7nf2glzhanp5ecwh42qjv6cp42tj77u4sjdigox623hlap3n3xe/0)`,
                         backgroundColor: "#414144",
                         backgroundRepeat: "no-repeat",
                         backgroundPosition: "center",
                         backgroundSize: "contain",
-                        borderRadius: 8
+                        borderRadius: 2
                     }}
                 >
                 </Box>
-                <Typography variant="h4" p={2}>Name of composition</Typography>
+                <Typography variant="h4" align="left" sx={{ width: "100%" }} p={2}>Name of composition</Typography>
                 <Stack direction="row" spacing={1}>
                     <Box>
                         <FormControl sx={{ height: 10, minWidth: 120 }}>

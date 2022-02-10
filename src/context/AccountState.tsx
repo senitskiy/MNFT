@@ -15,24 +15,20 @@ interface Nft {
 }
 
 interface AccountContext {
-    account: Account,
+    account: Account | null | undefined,
     setAccount: (account: Account) => void,
     connect: () => void
 }
 
 export const AccountContext = createContext<AccountContext>({
-    account: {
-        web3: null,
-        address: "",
-        nfts: null
-    },
+    account: null,
     setAccount: () => {},
     connect: () => {}
 });
 
 const AccountState = ({ children }: { children: any }) => {
     const [web3, setWeb3] = useState<Web3>();
-    const [account, setAccount] = useState<Account>({ address: null, nfts: null, web3: null });
+    const [account, setAccount] = useState<Account | null>(null);
 
     async function connect() {
         const web3Modal = new Web3Modal({

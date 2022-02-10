@@ -1,40 +1,38 @@
-import { Avatar, Button, Container, Stack } from "@mui/material";
-import { Box } from "@mui/system";
+import { Avatar, Button, AppBar as MuiAppBar, Stack, Toolbar, styled, InputBase, Box } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import { Search } from "../input/Search";
-import {useEffect, useState} from "react";
+import { useContext, useEffect, useState } from "react";
+import Search from "../input/Search";
+import { AccountContext } from "../../context/AccountState";
+
+const AppBar = styled(MuiAppBar)({
+    display: "flex",
+    justifyContent: "cenetr",
+    backdropFilter: "blur(20px)",
+});
 
 export const Header = () => {
-
-    const [id, setId] = useState(undefined);
+    // const [id, setId] = useState(undefined);
     const nav = useNavigate();
-    useEffect(()=>{
-        setId(localStorage.getItem("account"))
-    },[])
+    // useEffect(() => {
+    //     setId(localStorage.getItem("account"))
+    // }, [])
+
+    const { account } = useContext(AccountContext);
 
     return (
-        <Box component="div" sx={{
-            position: "fixed",
-            display: "flex",
-            justifyContent: "center",
-            width: "100%"
-        }}>
-            <Stack direction="row" p={2} sx={{ width: "60%" }} justifyContent="space-between" alignItems="center">
-                <Stack direction="row" spacing={2} alignItems="center">
-                    <Search />
-                    <Box>
-                        <Button color="secondary" size="small" onClick={() => nav("/")}>Explore</Button>
-                    </Box>
-                </Stack>
-
-                <Stack direction="row" spacing={2} alignItems="center">
-                    <Box>
-                        <Button size="small" onClick={() => nav("/mint")}>Create</Button>
-                    </Box>
-                    <Avatar />
-                </Stack>
-                {id}
-            </Stack>
-        </Box>
+        <AppBar position="fixed" color="transparent" elevation={0}>
+            <Toolbar sx={{ display: "flex", gap: 4 }}>
+                <Box sx={{ flexGrow: 1, display: { xs: 'none', sm: 'block' } }} />
+                <Search placeholder="Search NFTs" />
+                <Button variant="text" onClick={() => nav("/")}>Explore</Button>
+                <Box sx={{ flexGrow: 1, display: { xs: 'none', sm: 'block' } }} />
+                <Button variant="text" color="secondary" onClick={() => nav("/create")}>Create</Button>
+                {account ?
+                    <Avatar /> :
+                    <Button variant="contained" onClick={() => nav("/create")}>Sign In</Button>
+                }
+                <Box sx={{ flexGrow: 1, display: { xs: 'none', sm: 'block' } }} />
+            </Toolbar>
+        </AppBar>
     );
 }
