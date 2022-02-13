@@ -29,7 +29,7 @@ const CellUser = ({ name, image, type = 'master' }: CellUserProps) => {
 export const CardMNFT = () => {
     return (
         <Paper sx={{
-            borderRadius: 2
+            borderRadius: 12
         }}>
             <Box p={2} component="div" sx={{
                 display: "flex",
@@ -58,7 +58,7 @@ export const CardMNFT = () => {
                         backgroundRepeat: "no-repeat",
                         backgroundPosition: "center",
                         backgroundSize: "contain",
-                        borderRadius: 2
+                        borderRadius: 12
                     }}
                 >
                 </Box>

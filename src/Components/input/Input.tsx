@@ -12,14 +12,13 @@ export const Input = (props: TextFieldProps) => {
                 sx: ({ palette, shape }) => ({
                     borderRadius: shape.borderRadius,
                     backgroundColor: palette.background.paper,
-                    backgroundImage: "none"
+                    backgroundImage: "none",
                 }) 
             }}
             InputLabelProps={{
                 sx: ({ palette }) => ({ color: palette.text.secondary }),
                 focused: false
             }}
-            focused
             fullWidth
             autoComplete='off'
         />

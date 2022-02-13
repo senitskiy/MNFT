@@ -10,7 +10,7 @@ import { Header } from './Components/header/Header';
 
 const theme = createTheme({
   shape: {
-    borderRadius: 4,
+    borderRadius: 3,
   },
   spacing: 8,
   palette: {
@@ -71,8 +71,8 @@ const theme = createTheme({
         root: {
           backgroundImage: "none",  
         }
-      }
-    }
+      },
+    },
   }
 });
 
