@@ -1,45 +1,96 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
+import Promise from "bluebird";
+import { Web3Storage } from 'web3.storage/dist/bundle.esm.min.js'
 import { Avatar, Box, CircularProgress, Dialog, Paper, Stack, styled, Typography } from "@mui/material";
 import { MNFTForm } from "../Pages/MNFT/create/CreateMNFT";
+import { renameFile } from './../Components/utils/renameFile';
+
+import abi from "../contract/contract.json";
+import bs from "../contract/contract_bs.json";
+import { AccountContext } from './../context/AccountState';
+import { Icon28DoneOutline } from "@vkontakte/icons";
 
 interface ProcessedCreateNftProps {
     open: boolean,
     onClose: () => void,
-    payload: MNFTForm
+    form: MNFTForm
 }
 
-interface Step {
-    title: string,
-    loading?: boolean,
-    success?: boolean,
-    error?: string
-}
+type Step = "upload" | "deploy" | "mint" | null;
 
-const initSteps: Step[] = [
-    {
-        title: "Upload to IPFS"
-    },
-    {
-        title: "Deploy Contract"
-    },
-    {
-        title: "Mint NFT"
+export const ProcessedCreateNft = ({ open, onClose: close, form }: ProcessedCreateNftProps) => {
+    const { account } = useContext(AccountContext)
+    // const [cidPayloadIPFS, setCidPayloadIPFS] = useState(""); 
+    const [step, updateStep] = useState<Step>(null);
+    let promiseUploadToIPFS: Promise | null = null;
+
+    async function uploadToIPFS(): Promise<string> {
+        const client = new Web3Storage({ token: process.env.REACT_APP_WEB3_STORAGE_KEY });
+        const imageFile = renameFile(form.image, "0");
+        const cidImage = await client.put([imageFile]);
+        const payload = {
+            name: form.name,
+            description: form.description,
+            image: "ipfs://" + cidImage + "/0"
+        }
+
+        const payloadFile = new File([
+            new Blob([
+                JSON.stringify(payload)
+            ], {
+                type: "text/plain;charset=utf-8"
+            })
+        ], "payload_mnft.json");
+
+        const payloadCid: string = await client.put([payloadFile]);
+        return payloadCid;
     }
-];
 
-export const ProcessedCreateNft = ({ open, onClose }: ProcessedCreateNftProps) => {
+    async function deployMNFT(cid: string) {
+        console.log(cid);
 
-    const [cidPayloadIPFS, setCidPayloadIPFS] = useState(""); 
-    const [steps, updateSteps] = useState<Step[]>(initSteps);
+        if (!account) return;
+        if (!account.web3) return;
 
+        //@ts-ignore
+        const MNFT = new account.web3.eth.Contract(abi, account.address, {
+            from: account.address,
+            gas: 3000000,
+        });
 
-    // async function uploadDataToIPFS() {
-    //     console.log(form);
-    // }
+        MNFT.deploy({
+            data: bs.object
+        }).send({
+            from: account.address!,
+            gas: 3000000,
+        }, (err: any, hash) => {
+            console.log(hash);
+        }).on("receipt", async (receiptMint) => {
+            const res = await account.web3!.eth.sendTransaction({
+                to: receiptMint.contractAddress,
+                from: account.address!,
+                data: MNFT.methods.mint().encodeABI(),
+                gas: 3000000,
+            })
+            console.log("res", res.logs[0]);
+        }).on("error", (err: any) => {
+            console.log(err);
+        });
+    }
+
+    async function onClose() {
+        promiseUploadToIPFS?.cancel();
+        close();
+    }
 
     useEffect(() => {
+        async function createMnt() {
+            updateStep("upload");
+            const cid = await uploadToIPFS();
+        }
+
         if(open) {
-            console.log("start create MNFT");
+            createMnt()
         }
     }, [open]);
     
@@ -47,21 +98,30 @@ export const ProcessedCreateNft = ({ open, onClose }: ProcessedCreateNftProps) =
         <Dialog
             open={open}
             onClose={onClose}
+            PaperProps={{
+                sx: {
+                    borderRadius: 8
+                }
+            }}
         >
-            <Paper>
-                <Box p={3}>
+                <Box p={5}>
                     <Stack direction="column" spacing={1}>
-                        {
-                            steps.map(() => {
-                                <Stack direction="row" alignItems="center" spacing={2}>
-                                    <CircularProgress />
-                                    <Typography>Mint NFT</Typography>
-                                </Stack>
-                            })
-                        }
+                        <Stack direction="row" alignItems="center" spacing={2}>
+                            {step === "upload" ? <CircularProgress /> : <Icon28DoneOutline height={44} width={44} />}
+                            <Typography color="text.primary">Upload to IPFS</Typography>
+                        </Stack>
+
+                        <Stack direction="row" alignItems="center" spacing={2}>
+                            {step === "deploy" ? <CircularProgress  /> : <Icon28DoneOutline height={44} width={44} />}
+                            <Typography color="text.primary">Deploy</Typography>
+                        </Stack>
+
+                        <Stack direction="row" alignItems="center" spacing={2}>
+                            {step === "mint" ? <CircularProgress  /> : <Icon28DoneOutline height={44} width={44} />}
+                            <Typography color="text.primary">Mint</Typography>
+                        </Stack>
                     </Stack>
                 </Box>
-            </Paper>
         </Dialog>
     );
 }

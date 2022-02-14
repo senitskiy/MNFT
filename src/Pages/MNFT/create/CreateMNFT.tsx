@@ -5,11 +5,7 @@ import { useContext, useState } from "react";
 import { Login } from "../../../Components/login/Login";
 import { Input } from "../../../Components/input/Input"
 import { AccountContext } from "../../../context/AccountState"
-import abi from "./contract.json"
-import bs from "./contract_bs.json"
 import { useDropzone } from 'react-dropzone'
-//@ts-ignore
-import { Web3Storage } from 'web3.storage/dist/bundle.esm.min.js'
 import { ProcessedCreateNft } from './../../../Modals/ProcessedCreateNft';
 
 export interface MNFTForm {
@@ -33,13 +29,6 @@ const CreateMNFT = () => {
             ...prev,
             [name]: value
         }));
-    }
-
-    function renameFile(originalFile: File, newName: string) {
-        return new File([originalFile], newName, {
-            type: originalFile.type,
-            lastModified: originalFile.lastModified,
-        });
     }
 
     const onDrop = async (acceptedFiles: any) => {
@@ -88,65 +77,6 @@ const CreateMNFT = () => {
     //     setTokenId(res.logs[0]);
     //     console.log("res", res);
     // }
-
-
-    async function uploadIPFS() {
-        const client = new Web3Storage({ token: process.env.REACT_APP_WEB3_STORAGE_KEY });
-        const imageFile = renameFile(form.image, "0");
-
-        const cidImage = await client.put([imageFile]);
-        const ipfsJson = {
-            name: form.name,
-            description: form.description,
-            image: "ipfs://" + cidImage
-        }
-
-        const payloadMNFTFile = new File([
-            new Blob([
-                JSON.stringify(ipfsJson)
-            ], {
-                type: "text/plain;charset=utf-8"
-            })
-        ], "payload_mnft.json");
-
-        const payloadMNFTCid: string = await client.put([payloadMNFTFile]);
-        deployMNFT(payloadMNFTCid);
-    }
-
-    async function deployMNFT(cid: string) {
-        setProcessedCreateMnft(true);
-
-        console.log(form);
-
-
-        if (!account) return;
-        if (!account.web3) return;
-
-        //@ts-ignore
-        const MNFT = new account.web3.eth.Contract(abi, account.address, {
-            from: account.address,
-            gas: 3000000,
-        });
-
-        MNFT.deploy({
-            data: bs.object
-        }).send({
-            from: account.address!,
-            gas: 3000000,
-        }, (err: any, hash) => {
-            console.log(hash);
-        }).on("receipt", async (receiptMint) => {
-            const res = await account.web3!.eth.sendTransaction({
-                to: receiptMint.contractAddress,
-                from: account.address!,
-                data: MNFT.methods.mint().encodeABI(),
-                gas: 3000000,
-            })
-            console.log("res", res.logs[0]);
-        }).on("error", (err: any) => {
-            console.log(err);
-        });
-    }
 
     const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop })
 
@@ -242,7 +172,7 @@ const CreateMNFT = () => {
                         </Grid>
                         <Grid item xs={12}>
                             <Stack spacing={2} direction="row">
-                                <Button variant="contained" onClick={uploadIPFS}>Publish</Button>
+                                <Button variant="contained" onClick={() => setProcessedCreateMnft(true)}>Publish</Button>
                                 {/* <Button variant="contained" onClick={mintNFT}>Publish original</Button> */}
                                 <Button>Save draft</Button>
                                 {/* <Button onClick={Mint}>Mint</Button>
@@ -253,7 +183,7 @@ const CreateMNFT = () => {
                 </Box>
             </Stack>
 
-            <ProcessedCreateNft payload={form} open={processedCreateMnft} onClose={() => setProcessedCreateMnft(false)} />
+            <ProcessedCreateNft form={form} open={processedCreateMnft} onClose={() => setProcessedCreateMnft(false)} />
         </Box>
     );
 }

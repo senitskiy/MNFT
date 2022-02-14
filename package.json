@@ -7,6 +7,7 @@
     "@emotion/styled": "^11.6.0",
     "@mui/material": "^5.4.0",
     "@vkontakte/icons": "^1.142.0",
+    "bluebird": "^3.7.2",
     "ipfs-car": "^0.6.1",
     "lodash": "^4.17.21",
     "nft.storage": "^5.2.3",
