@@ -5,8 +5,8 @@ import Web3 from 'web3';
 import './App.css';
 
 import CreateMNFT from "./Pages/MNFT/create/CreateMNFT";
-import Marketplace from "./Pages/Marketplace";
 import { Header } from './Components/header/Header';
+import Marketplace from './Pages/Marketplace';
 
 const theme = createTheme({
   shape: {
