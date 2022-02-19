@@ -9,6 +9,9 @@ import abi from "../contract/contract.json";
 import bs from "../contract/contract_bs.json";
 import { AccountContext } from './../context/AccountState';
 import { Icon28DoneOutline } from "@vkontakte/icons";
+import { gql } from '@apollo/client';
+import { useMutation } from '@apollo/client';
+import { CreateMnftMutation, CreateMnftMutationVariables } from "../../graphql/generated";
 
 interface ProcessedCreateNftProps {
     open: boolean,
@@ -16,15 +19,24 @@ interface ProcessedCreateNftProps {
     form: MNFTForm
 }
 
-type Step = "upload" | "deploy" | "mint" | "create_mnft" | null;
+type Step = "upload" | "deploy" | "mint" | "create_mnft" | "approveMNFT" | null;
 
 interface ContactMNFT {
     address: string,
     MNFT: any
 }
 
+const CREATE_MNFT = gql`
+mutation CreateMNFT($input: MNFTInput) {
+  createMNFT(input: $input) {
+    ok
+  }
+}
+`;
+
 export const ProcessedCreateNft = ({ open, onClose, form }: ProcessedCreateNftProps) => {
     const { account } = useContext(AccountContext)
+    const [bcreateMNFT] = useMutation<CreateMnftMutation, CreateMnftMutationVariables>(CREATE_MNFT);
     const [step, updateStep] = useState<Step>(null);
 
     async function uploadToIPFS(): Promise<string> {
@@ -102,6 +114,10 @@ export const ProcessedCreateNft = ({ open, onClose, form }: ProcessedCreateNftPr
         })
     }
 
+    async function approveMNFT() {
+
+    }
+
     useEffect(() => {
         async function createMnt() {
             updateStep("upload");
@@ -114,6 +130,8 @@ export const ProcessedCreateNft = ({ open, onClose, form }: ProcessedCreateNftPr
             await mintMNFT(receiptMint);
             updateStep("create_mnft");
             await createMNFT(receiptMint, cid);
+            updateStep("approveMNFT");
+            await approveMNFT();
             onClose();
         }
 

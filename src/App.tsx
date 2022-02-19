@@ -1,7 +1,6 @@
 import { createTheme, Grid, ThemeProvider, styled } from '@mui/material';
 import React from 'react';
 import { Route, Routes } from "react-router-dom";
-import Web3 from 'web3';
 import './App.css';
 
 import CreateMNFT from "./Pages/MNFT/create/CreateMNFT";
@@ -94,19 +93,19 @@ const Offset = styled('div')(({ theme }) => theme.mixins.toolbar);
 
 function App() {
   return (
-    <ThemeProvider theme={theme}>
-      <CssBaseline />
-      <Grid component="main" sx={{ height: "100vh", backgroundColor: "background.default" }}>
-        <Header />
-        <Offset />
-        <Routes>
-          <Route path='/' element={<Marketplace />} />
-          <Route path='/mnft/:address' element={<MNFT />} />
-          <Route path='/create' element={<CreateMNFT />} />
-          <Route path='/rent/:address' element={<RentMNFT />} />
-        </Routes>
-      </Grid>
-    </ThemeProvider>
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        <Grid component="main" sx={{ height: "100vh", backgroundColor: "background.default" }}>
+          <Header />
+          <Offset />
+          <Routes>
+            <Route path='/' element={<Marketplace />} />
+            <Route path='/mnft/:address' element={<MNFT />} />
+            <Route path='/create' element={<CreateMNFT />} />
+            <Route path='/rent/:address' element={<RentMNFT />} />
+          </Routes>
+        </Grid>
+      </ThemeProvider>
   );
 }
 

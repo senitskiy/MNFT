@@ -7,20 +7,28 @@ export const RentMNFT = () => {
             <Box>
                 <Image width={500} height={500} />
             </Box>
-            <Box width="50% ">
+            <Box width="25% ">
                 <Grid container spacing={2} component="form">
+                    <Grid item xs={12}>
+                        <Stack spacing={1} direction="row">
+                            <Image width={100} height={100} />
+                            <Image width={100} height={100} />
+                        </Stack>
+                    </Grid>
                     <Grid item xs={12}>
                         <Input
                             label="Start"
                             name="name"
-
-                            placeholder="Name of composition"
+                            type="datetime-local"
+                            focused
                         />
                     </Grid>
                     <Grid item xs={12}>
                         <Input
                             label="End"
+                            type="datetime-local"
                             name="description"
+                            focused
                         />
                     </Grid>
                     <Grid item xs={12}>
@@ -28,7 +36,7 @@ export const RentMNFT = () => {
                             label="Price of k ad"
                             name="cost"
                             type="number"
-
+                            focused
                             placeholder="1.1 ETH"
                         />
                     </Grid>

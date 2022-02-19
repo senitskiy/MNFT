@@ -1,0 +1,10 @@
+schema: https://b118-86-62-87-187.ngrok.io/graphql/
+documents: './src/**/*.tsx'
+generates:
+  ./graphql/generated.ts:
+    plugins:
+      - typescript
+      - typescript-operations
+      - typescript-react-query
+    config:
+      fetcher: fetch

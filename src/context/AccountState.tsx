@@ -1,3 +1,4 @@
+import { gql, useLazyQuery, useMutation } from "@apollo/client";
 import { createContext, ReactChildren, ReactNode, useContext, useEffect, useState } from "react";
 import Web3 from 'web3';
 import Web3Modal from "web3modal";
@@ -20,6 +21,31 @@ interface AccountContext {
     connect: () => void
 }
 
+const GET_USER = gql`
+query GetUser($address: String) {
+  getUser(address: $address) {
+    address
+    image
+    name
+    email
+  }
+}
+`;
+
+const CREATE_USER = gql`
+mutation CreateUser($input: UserInput!) {
+  createUser(input: $input) {
+    ok
+    user {
+      address
+      image
+      name
+      email
+    }
+  }
+}
+`;
+
 export const AccountContext = createContext<AccountContext>({
     account: null,
     setAccount: () => { },
@@ -28,6 +54,8 @@ export const AccountContext = createContext<AccountContext>({
 
 const AccountState = ({ children }: { children: any }) => {
     const [account, setAccount] = useState<Account | null>(null);
+    const [getUser] = useLazyQuery(GET_USER);
+    const [createUser] = useMutation(CREATE_USER);
 
     async function connect() {
         try {
@@ -40,6 +68,23 @@ const AccountState = ({ children }: { children: any }) => {
             const web3 = new Web3(provider);
 
             const accounts = await web3.eth.getAccounts();
+
+            const result = await getUser({
+                    variables: {
+                        address: accounts[0]
+                    }
+            });
+
+            if(!result.data?.getUser) {
+                await createUser({
+                    variables: {
+                        input: {
+                            address: accounts[0]
+                        }
+                    }
+                })
+            }
+
             setAccount((prev) => ({
                 ...prev,
                 web3,
