@@ -2,7 +2,10 @@ import React from "react";
 import { noop } from "lodash";
 import { TextField, styled, TextFieldProps } from "@mui/material";
 
-export const Input = (props: TextFieldProps) => {
+export const Input = (props: TextFieldProps & {
+    min?: number,
+    max?: number
+}) => {
     return(
         <TextField
             {...props}

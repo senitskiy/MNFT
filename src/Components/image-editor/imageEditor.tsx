@@ -25,12 +25,8 @@ interface ImageEditorProps {
 
 export const ImageEditor = (props: ImageEditorProps) => {
     
-  const NFTImageRef = useRef<any>();
-  const ADVImageRef = useRef<any>();
   const stageRef = useRef<any>();
-  const [selectADV, setSelectADV] = useState<boolean>(false);
-  const [NFTImageUrl, setNFTImageUrl] = useState<string>(props.image);
-  const [ADVImageUrl, setADVImageUrl] = useState<string>(props.ADVImageUrl);
+  const [selectADV, setSelectADV] = useState<boolean>(true);
   const [stageSize, setStageSize] = useState<stageSizeProps>({
     width: 0,
     height: 0,
@@ -56,18 +52,6 @@ export const ImageEditor = (props: ImageEditorProps) => {
     },
   };
 
-  const AddNFTFromFile = () => {
-    if (NFTImageRef.current) {
-      NFTImageRef.current.click();
-    }
-  };
-
-  const AddADVFromFile = () => {
-    if (ADVImageRef.current) {
-      ADVImageRef.current.click();
-    }
-  };
-
   const MakeNFT = () => {
     if (stageRef.current) {
       const dataURL = stageRef.current.toDataURL({ pixelRatio: 2 });
@@ -80,29 +64,8 @@ export const ImageEditor = (props: ImageEditorProps) => {
     }
   };
 
-  useEffect(() => {
-    setADVImageUrl(ADVImageUrl)
-  }, [ADVImageUrl])
-
   return (
     <div>
-      <div style={styles.navbar}>
-        <div>
-          <input
-            type="file"
-            id="ADV"
-            ref={ADVImageRef}
-            style={{ display: "none" }}
-            onChange={(event: any) => {
-              let reader = new FileReader();
-              reader.onload = (e: any) => {
-                setADVImageUrl(e.target.result);
-              };
-              reader.readAsDataURL(event.target.files[0]);
-            }}
-          />
-        </div>
-      </div>
       <div
         style={{
           display: "flex",
@@ -118,7 +81,7 @@ export const ImageEditor = (props: ImageEditorProps) => {
           >
             <Layer>
               <NFTImage
-                src={NFTImageUrl}
+                src={props.image}
                 size={props.size}
                 selectADV={selectADV}
                 setSelectADV={setSelectADV}
@@ -126,7 +89,7 @@ export const ImageEditor = (props: ImageEditorProps) => {
                 setStageSize={setStageSize}
               />
               <ADVImage
-                src={ADVImageUrl}
+                src={props?.ADVImageUrl}
                 size={props.size}
                 selectADV={selectADV}
                 setSelectADV={setSelectADV}
