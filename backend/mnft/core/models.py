@@ -22,7 +22,6 @@ class MNFT(models.Model):
     )
     address = models.CharField(max_length=300, unique=True, primary_key=True,)
     blockchain = models.IntegerField(default=0, choices=types_blockchain)
-
     symbol = models.CharField(max_length=300, null=True, blank=True)
     standart = models.IntegerField(default=721, choices=types_standart)
     lastUpdate = models.DateField(auto_now=True)
@@ -36,4 +35,4 @@ class MNFT(models.Model):
     owner = models.ForeignKey(
         User, on_delete=models.CASCADE, related_name="mnfts_owner")
     sponsor = models.ForeignKey(
-        User, on_delete=models.CASCADE, related_name="mnfts_lord")
+        User, on_delete=models.CASCADE, related_name="mnfts_lord", null=True, blank=True)
