@@ -40,9 +40,11 @@ class Query(graphene.ObjectType):
         return User.objects.all()
 
     def resolve_getUser(root, info, address):
+        print(address)
         if address is not None:
             try:
                 u = User.objects.get(pk=address)
+                return u
             except Exception as err:
                 print(f"ERROR: {err}")
                 return None
@@ -58,19 +60,19 @@ class UserInput(graphene.InputObjectType):
 
 
 class MNFTInput(graphene.InputObjectType):
-    blockchain = graphene.Int()
+    blockchain = graphene.Int(default_value=0)
     address = graphene.String(required=True)
     symbol = graphene.String()
-    standart = graphene.Int()
+    standart = graphene.Int(default_value=721)
     lastUpdate = graphene.Date()
     name = graphene.String()
     description = graphene.String()
     image = graphene.String()
-    cost = graphene.Int()
-    costAd = graphene.Int()
-    creator = graphene.String()
-    owner = graphene.String()
-    sponsor = graphene.String()
+    cost = graphene.Int(default_value=0)
+    costAd = graphene.Int(default_value=0)
+    creator = graphene.ID()
+    owner = graphene.ID()
+    sponsor = graphene.ID()
 
 
 class createMNFT(graphene.Mutation):
@@ -83,6 +85,12 @@ class createMNFT(graphene.Mutation):
     @staticmethod
     def mutate(root, info, input=None):
         ok = True
+        print(input.sponsor)
+        uCreator = User.objects.get(pk=input.creator)
+        uOwner = User.objects.get(pk=input.owner)
+        uSponsor = User.objects.get(pk=input.sponsor) if input.sponsor is not None else None
+        print(uCreator, uOwner, uSponsor)
+
         mnft_instanse = MNFT(address=input.address,
                              blockchain=input.blockchain,
                              symbol=input.symbol,
@@ -93,9 +101,9 @@ class createMNFT(graphene.Mutation):
                              image=input.image,
                              cost=input.cost,
                              costAd=input.costAd,
-                             creator=input.creator,
-                             owner=input.owner,
-                             sponsor=input.sponsor,
+                             creator=uCreator,
+                             owner=uOwner,
+                             sponsor=uSponsor
                              )
         mnft_instanse.save()
         return createMNFT(ok=ok, MNFT=mnft_instanse)
@@ -111,22 +119,25 @@ class updateMNFT(graphene.Mutation):
     @staticmethod
     def mutate(root, info, address, input=None):
         ok = False
+        uCreator = User.objects.get(pk=input.creator)
+        uOwner = User.objects.get(pk=input.owner)
+        uSponsor = User.objects.get(pk=input.sponsor) if input.sponsor is not None else None
         mnft_instance = MNFT.objects.get(pk=address)
         if mnft_instance:
             ok = True
             mnft_instance.address = input.address
             mnft_instance.blockchain = input.blockchain
-            mnft_instance.symbol = input.symbol,
-            mnft_instance.standart = input.standart,
-            mnft_instance.lastUpdate = input.lastUpdate,
-            mnft_instance.name = input.name,
-            mnft_instance.description = input.description,
-            mnft_instance.image = input.image,
-            mnft_instance.cost = input.cost,
-            mnft_instance.costAd = input.costAd,
-            mnft_instance.creator = input.creator,
-            mnft_instance.owner = input.owner,
-            mnft_instance.sponsor = input.sponsor,
+            mnft_instance.symbol = input.symbol
+            mnft_instance.standart = input.standart
+            mnft_instance.lastUpdate = input.lastUpdate
+            mnft_instance.name = input.name
+            mnft_instance.description = input.description
+            mnft_instance.image = input.image
+            mnft_instance.cost = input.cost
+            mnft_instance.costAd = input.costAd
+            mnft_instance.creator = uCreator
+            mnft_instance.owner = uOwner
+            mnft_instance.sponsor = uSponsor
             mnft_instance.save()
             return updateMNFT(ok=ok, MNFT=mnft_instance)
         return updateMNFT(ok=ok, MNFT=None)
@@ -180,9 +191,9 @@ class createOrUpdateUser(graphene.Mutation):
     def mutate(root, info, input=None):
         ok = True
         user_instance, create = User.objects.update_or_create(address=input.address,
-                                                      image=input.image,
-                                                      name=input.name,
-                                                      email=input.email)
+                                                              image=input.image,
+                                                              name=input.name,
+                                                              email=input.email)
         user_instance.save()
         return createUser(ok=ok, user=user_instance)
 
