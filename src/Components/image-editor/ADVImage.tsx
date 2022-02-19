@@ -29,7 +29,10 @@ export const ADVImage = (props: ImageProps) => {
   }, [props.src]);
 
   function handleLoad() {
+    console.log(props);
+    
     const img = imageRef.current;
+    
 
     if (img.naturalHeight > img.naturalWidth) {
       img.height = props.size * 0.2;

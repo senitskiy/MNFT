@@ -20,6 +20,7 @@ interface stageSizeProps {
 interface ImageEditorProps {
   size: number;
   image: CanvasImageSource | any;
+  ADVImageUrl: any;
 }
 
 export const ImageEditor = (props: ImageEditorProps) => {
@@ -28,8 +29,8 @@ export const ImageEditor = (props: ImageEditorProps) => {
   const ADVImageRef = useRef<any>();
   const stageRef = useRef<any>();
   const [selectADV, setSelectADV] = useState<boolean>(false);
-  const [NFTImageUrl, setNFTImageUrl] = useState<string>("");
-  const [ADVImageUrl, setADVImageUrl] = useState<string>("");
+  const [NFTImageUrl, setNFTImageUrl] = useState<string>(props.image);
+  const [ADVImageUrl, setADVImageUrl] = useState<string>(props.ADVImageUrl);
   const [stageSize, setStageSize] = useState<stageSizeProps>({
     width: 0,
     height: 0,
@@ -79,24 +80,14 @@ export const ImageEditor = (props: ImageEditorProps) => {
     }
   };
 
+  useEffect(() => {
+    setADVImageUrl(ADVImageUrl)
+  }, [ADVImageUrl])
+
   return (
     <div>
       <div style={styles.navbar}>
         <div>
-          <input
-            type="file"
-            id="NFT"
-            ref={NFTImageRef}
-            style={{ display: "none" }}
-            onChange={(event: any) => {
-              let reader = new FileReader();
-              reader.onload = (e: any) => {
-                setNFTImageUrl(e.target.result);
-              };
-              reader.readAsDataURL(event.target.files[0]);
-            }}
-          />
-
           <input
             type="file"
             id="ADV"
