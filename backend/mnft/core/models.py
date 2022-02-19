@@ -3,9 +3,9 @@ from django.db import models
 
 class User(models.Model):
     address = models.CharField(max_length=300,  unique=True, primary_key=True)
-    image = models.CharField(max_length=300)
-    name = models.CharField(max_length=300)
-    email = models.CharField(max_length=300)
+    image = models.CharField(max_length=300, null=True, blank=True)
+    name = models.CharField(max_length=300, null=True, blank=True)
+    email = models.CharField(max_length=300, null=True, blank=True)
 
 
 class MNFT(models.Model):
@@ -23,17 +23,17 @@ class MNFT(models.Model):
     address = models.CharField(max_length=300, unique=True, primary_key=True,)
     blockchain = models.IntegerField(default=0, choices=types_blockchain)
 
-    symbol = models.CharField(max_length=300)
+    symbol = models.CharField(max_length=300, null=True, blank=True)
     standart = models.IntegerField(default=721, choices=types_standart)
-    lastUpdate = models.DateField()
+    lastUpdate = models.DateField(auto_now=True)
     name = models.CharField(max_length=300)
-    description = models.CharField(max_length=300)
+    description = models.CharField(max_length=300, null=True, blank=True)
     image = models.CharField(max_length=300)
     cost = models.IntegerField(default=0)
     costAd = models.IntegerField(default=0)
     creator = models.ForeignKey(
-        User, on_delete=models.CASCADE, related_name="mnft_creator")
+        User, on_delete=models.CASCADE, related_name="mnfts_creator")
     owner = models.ForeignKey(
-        User, on_delete=models.CASCADE, related_name="mnft_owner")
+        User, on_delete=models.CASCADE, related_name="mnfts_owner")
     sponsor = models.ForeignKey(
-        User, on_delete=models.CASCADE, related_name="mnft_lord")
+        User, on_delete=models.CASCADE, related_name="mnfts_lord")
