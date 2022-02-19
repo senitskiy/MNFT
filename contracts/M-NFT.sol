@@ -7,6 +7,7 @@ import './ERC721/ERC721.sol';
 import "./utils/Counters.sol";
 import './utils/Ownable.sol';
 import "./ERC721/extensions/ERC721URIStorage_M.sol"; // changed import
+import "./ERC721/extensions/ERC721Burnable.sol";
 // import "@openzeppelin/contracts/utils/Counters.sol";
 
 contract M_NFT is ERC721, ERC721URIStorage, Ownable { 
@@ -23,7 +24,7 @@ contract M_NFT is ERC721, ERC721URIStorage, Ownable {
     // }
 
 
-    constructor() ERC721("Dim Sen", "DS") {
+    constructor() ERC721("v.0.1.06", "M-NFT") {
         // owner = msg.sender;
     }
 
@@ -31,15 +32,15 @@ contract M_NFT is ERC721, ERC721URIStorage, Ownable {
     function mint() public onlyOwner returns (uint256) {
         address owner = msg.sender;
         super._safeMint(owner, _tokenIds.current());
+        // super._safeMint(owner, 5638);
         _tokenIds.increment();
         uint256 tokenId = _tokenIds.current();
+        // uint256 tokenId = 5638;
         return tokenId;
         //  _tokenIds.current();
     }
 
-    function currentTokenIds() public view returns (uint256) {
-        return _tokenIds.current();
-    }
+
 
     // function setTokenURI(uint256 tokenId, string memory tokenURI)
     //     public
@@ -48,12 +49,37 @@ contract M_NFT is ERC721, ERC721URIStorage, Ownable {
     //     super._setTokenURI(tokenId, tokenURI);
     // }
 
-    function create_M_NFT(uint256 tokenId, string memory tokenURI , string memory tokenURI_M, uint64 _timeStart)
+    function create_M_NFT(uint256 tokenId, string memory tokenURI , string memory tokenURI_M, uint64 _timeStart, uint64 _timeStop)
         public
         onlyOwner
     {        
-        super._setTokenURI_M(tokenId, tokenURI, tokenURI_M, _timeStart);
+        super._setTokenURI_M(tokenId, tokenURI, tokenURI_M, _timeStart, _timeStop);
     }
+
+    function change_M_NFT(uint256 tokenId, string memory tokenURI_M, uint64 timeStart, uint64 timeStop)
+        public
+        onlyOwner
+    {        
+        // super._setTokenURI_M(tokenId, tokenURI, tokenURI_M, _timeStart, _timeStop);
+        super._changeTokenURI_M( tokenId, tokenURI_M, timeStart, timeStop);
+    }
+
+    function _burnTokenId(uint256 tokenId)
+        public
+        onlyOwner
+    {        
+        _burn(tokenId);
+    } 
+
+
+    // function bytesBase() public view returns (bytes) {
+    //     string base = _baseURI();
+    //     return bytes(base).length;
+    // }
+
+        
+
+        
 
 //     function createNFT(uint256 _tokenId, string memory tokenURIOrigin, string memory tokenURI) 
 //         external { //} onlyOwner {
@@ -70,6 +96,9 @@ contract M_NFT is ERC721, ERC721URIStorage, Ownable {
 //     }
 
 
+    function currentTokenId() public view returns (uint256) {
+        return _tokenIds.current() - 1;
+    }
 
     function tokenURI(uint256 tokenId)
         public
@@ -86,6 +115,13 @@ contract M_NFT is ERC721, ERC721URIStorage, Ownable {
     {
         super._burn(tokenId);
     }
+
+    // function create_M_NFT(uint256 tokenId, string memory tokenURI , string memory tokenURI_M, uint64 _timeStart)
+    //     public
+    //     onlyOwner
+    // {        
+    //     super._setTokenURI_M(tokenId, tokenURI, tokenURI_M, _timeStart);
+    // }
 
 //   function mint(address _to, uint256 _tokenId, string calldata _uri) external onlyOwner {
 //     super._mint(_to, _tokenId);
