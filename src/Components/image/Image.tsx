@@ -1,8 +1,8 @@
 import { Box } from "@mui/material";
 
 interface ImageProps {
-    width?: number,
-    height?: number,
+    width?: number | string,
+    height?: number | string,
     src?: string 
 }
 

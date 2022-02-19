@@ -1,7 +1,7 @@
 import React from "react";
 import { Paper as MuiPaper, Box, Stack, Avatar, Typography, Button, Select, MenuItem, FormControl, InputLabel, styled } from "@mui/material";
 import { Image } from './../image/Image';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { CellUser } from './../cell-user/CellUser';
 
 const Paper = styled(MuiPaper)(({ theme }) => ({
@@ -13,6 +13,7 @@ const Paper = styled(MuiPaper)(({ theme }) => ({
 export const CardMNFT = () => {
 
     const nav = useNavigate();
+    const { pathname,  } = useLocation()
 
     return (
         <Paper sx={{
@@ -40,17 +41,16 @@ export const CardMNFT = () => {
                     />
                 </Stack>
                 <Image src="https://ipfs.io/ipfs/bafybeig7nf2glzhanp5ecwh42qjv6cp42tj77u4sjdigox623hlap3n3xe/0" width={300} height={300} />
-                <Typography variant="h4" align="left" sx={{ width: "100%" }} p={1}>Name of composition</Typography>
-                <Typography variant="h5" align="left" sx={{ width: "100%" }} p={1}>100$</Typography>
-                <Button variant="text" onClick={() => nav("/mnft")}>Подробнее</Button>
-                {/* <Stack direction="row" spacing={1}>
+                <Typography variant="h2" align="left" sx={{ width: "100%" }} p={1}>Name of composition</Typography>
+                <Typography variant="h3" align="left" sx={{ width: "100%" }} p={1}>100$ - 1$/day</Typography>
+                <Stack direction="row" spacing={1}>
                     <Button sx={{
                         backgroundColor: "#414144",
-                        color: "text.secondary",
+                        color: "text.primary",
                         fontWeight: 700
-                    }}>1.1 ETH</Button>
-                    <Button variant="contained" sx={{ fontWeight: 700, textTransform: "none" }}>Apply</Button>
-                </Stack> */}
+                    }}>Rent AD</Button>
+                    <Button variant="text" onClick={() => nav('/mnft')}>View more</Button>
+                </Stack>
             </Box>
         </Paper>
     );
