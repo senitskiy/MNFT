@@ -51,6 +51,7 @@
 		"methodIdentifiers": {
 			"approve(address,uint256)": "095ea7b3",
 			"balanceOf(address)": "70a08231",
+			"burn(uint256)": "42966c68",
 			"getApproved(uint256)": "081812fc",
 			"isApprovedForAll(address,address)": "e985e9c5",
 			"name()": "06fdde03",
@@ -175,6 +176,19 @@
 				}
 			],
 			"stateMutability": "view",
+			"type": "function"
+		},
+		{
+			"inputs": [
+				{
+					"internalType": "uint256",
+					"name": "tokenId",
+					"type": "uint256"
+				}
+			],
+			"name": "burn",
+			"outputs": [],
+			"stateMutability": "nonpayable",
 			"type": "function"
 		},
 		{

@@ -39,7 +39,7 @@ export const ProcessedCreateNft = ({ open, onClose, form }: ProcessedCreateNftPr
     const [bcreateMNFT] = useMutation<CreateMnftMutation, CreateMnftMutationVariables>(CREATE_MNFT);
     const [step, updateStep] = useState<Step>(null);
 
-    async function uploadToIPFS(): Promise<string> {
+    async function uploadToIPFS(): Promise<{ cidImage: string, cidJson: string }> {
         const client = new Web3Storage({ token: process.env.REACT_APP_WEB3_STORAGE_KEY });
         const imageFile = renameFile(form.image, "0");
         const cidImage = await client.put([imageFile]);
@@ -58,7 +58,10 @@ export const ProcessedCreateNft = ({ open, onClose, form }: ProcessedCreateNftPr
         ], "0");
 
         const payloadCid: string = await client.put([payloadFile]);
-        return payloadCid;
+        return {
+            cidJson: payloadCid,
+            cidImage: cidImage + "/0"
+        };
     }
 
     async function deployMNFT(cid: string): Promise<ContactMNFT> {
@@ -114,24 +117,37 @@ export const ProcessedCreateNft = ({ open, onClose, form }: ProcessedCreateNftPr
         })
     }
 
-    async function approveMNFT() {
-
+    async function approveMNFT(contract: ContactMNFT, cidJson: string, cidImage: string) {
+        await bcreateMNFT({
+            variables: {
+                input: {
+                    address: contract.address,
+                    name: form.name,
+                    description: form.description,
+                    cost: form.cost,
+                    costAd: form.costAd,
+                    image: `ipfs://${cidImage}`,
+                    blockchain: 0,
+                    standart: 721,
+                } 
+            }
+        })
     }
 
     useEffect(() => {
         async function createMnt() {
             updateStep("upload");
-            const cid = await uploadToIPFS();
-            console.log(cid);
+            const { cidImage, cidJson } = await uploadToIPFS();
+            console.log(cidJson);
             updateStep("deploy");
-            const receiptMint = await deployMNFT(cid);
+            const receiptMint = await deployMNFT(cidJson);
             console.log(receiptMint);
             updateStep("mint");
             await mintMNFT(receiptMint);
             updateStep("create_mnft");
-            await createMNFT(receiptMint, cid);
+            await createMNFT(receiptMint, cidJson);
             updateStep("approveMNFT");
-            await approveMNFT();
+            await approveMNFT(receiptMint, cidJson, cidImage);
             onClose();
         }
 
@@ -169,6 +185,10 @@ export const ProcessedCreateNft = ({ open, onClose, form }: ProcessedCreateNftPr
                     <Stack direction="row" alignItems="center" spacing={2}>
                         {step === "create_mnft" ? <CircularProgress /> : <Icon28DoneOutline height={44} width={44} />}
                         <Typography color="text.primary">Create MNFT</Typography>
+                    </Stack>
+                    <Stack direction="row" alignItems="center" spacing={2}>
+                        {step === "approveMNFT" ? <CircularProgress /> : <Icon28DoneOutline height={44} width={44} />}
+                        <Typography color="text.primary">Approve MNFT</Typography>
                     </Stack>
                     {!open &&
                         <Box>

@@ -59,7 +59,7 @@ export const RentMNFT = () => {
           </Grid>
           <Grid item xs={12}>
             <Input
-              label="Price of k ad"
+              label="Price of ad"
               name="cost"
               type="number"
               focused
@@ -68,9 +68,8 @@ export const RentMNFT = () => {
           </Grid>
           <Grid item xs={12}>
             <Stack spacing={2} direction="row">
-              <Button variant="contained">Publish</Button>
+              <Button variant="contained">Apply</Button>
               {/* <Button variant="contained" onClick={mintNFT}>Publish original</Button> */}
-              <Button>Save draft</Button>
               {/* <Button onClick={Mint}>Mint</Button>
                                 <Button onClick={CreateMNft}>create M-Nft</Button> */}
             </Stack>

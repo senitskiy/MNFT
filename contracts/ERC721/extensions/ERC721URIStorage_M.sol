@@ -19,34 +19,37 @@ import "../ERC721.sol";
         string _tokenURI_origin;
         string _tokenURI_modified;
         uint64 _timeStart;
+        uint64 _timeStop;
     }  
 
     mapping(uint256 => MyStruct) private _tokenURIs_M;
 
 
-    function uri(uint256 _id) public view returns (string memory) {
-        MyStruct memory _tokenURI_M = _tokenURIs_M[_id];
-        string memory base = _baseURI();
+    // function uri(uint256 _id) public view returns (string memory) {
+    //     MyStruct memory _tokenURI_M = _tokenURIs_M[_id];
+    //     string memory base = _baseURI();
         
-        if ((bytes(base).length != 0) &&
-                    (block.timestamp < _tokenURI_M._timeStart + 1 minutes)) {
-            return _tokenURI_M._tokenURI_origin;
-        } else if ((bytes(base).length == 0) && 
-                    (block.timestamp >= _tokenURI_M._timeStart + 1 minutes)) {
-            return _tokenURI_M._tokenURI_modified;
-        }
+    //     // if ((bytes(base).length != 0) &&
+    //     //             (block.timestamp < _tokenURI_M._timeStart + 2 minutes)) {
+    //     //     return _tokenURI_M._tokenURI_origin;
+    //     // } else if ((bytes(base).length == 0) && 
+    //     //             (block.timestamp >= _tokenURI_M._timeStart + 2 minutes)) {
+    //     //     return _tokenURI_M._tokenURI_modified;
+    //     // }
 
-        if (bytes(_tokenURI_M._tokenURI_origin).length > 0 &&
-                    block.timestamp < _tokenURI_M._timeStart + 1 minutes) {
-            return string(abi.encodePacked(base, _tokenURI_M._tokenURI_origin));
-        } else if (bytes(_tokenURI_M._tokenURI_origin).length > 0 &&
-                    block.timestamp >= _tokenURI_M._timeStart + 1 minutes)
-        {
-            return string(abi.encodePacked(base, _tokenURI_M._tokenURI_modified));                    
-        }
-        // return templateURI;
-        // return tokenURI(tokenId);
-    }
+    //     if (bytes(_tokenURI_M._tokenURI_origin).length > 0 &&
+    //                 block.timestamp >= _tokenURI_M._timeStop) {
+    //         return string(abi.encodePacked(base, _tokenURI_M._tokenURI_origin));
+
+    //     } else if (bytes(_tokenURI_M._tokenURI_origin).length > 0 &&
+    //                 block.timestamp >= _tokenURI_M._timeStart  &&
+    //                 block.timestamp < _tokenURI_M._timeStop)
+    //     {
+    //         return string(abi.encodePacked(base, _tokenURI_M._tokenURI_modified));                    
+    //     }
+    //     // return templateURI;
+    //     // return tokenURI(tokenId);
+    // }
 
     /**
      * @dev See {IERC721Metadata-tokenURI}.
@@ -59,10 +62,12 @@ import "../ERC721.sol";
 
         // If there is no base URI, return the token URI.
         if ((bytes(base).length == 0) &&
-                    (block.timestamp < _tokenURI_M._timeStart + 1 minutes)) {
+                    block.timestamp < _tokenURI_M._timeStart &&
+                    (block.timestamp >= _tokenURI_M._timeStop)) {
             return _tokenURI_M._tokenURI_origin;
         } else if ((bytes(base).length == 0) && 
-                    (block.timestamp >= _tokenURI_M._timeStart + 1 minutes)) {
+                    block.timestamp >= _tokenURI_M._timeStart &&
+                    block.timestamp < _tokenURI_M._timeStop) {
             return _tokenURI_M._tokenURI_modified;
         }
 
@@ -71,10 +76,12 @@ import "../ERC721.sol";
 
         // If both are set, concatenate the baseURI and tokenURI (via abi.encodePacked).
         if (bytes(_tokenURI_M._tokenURI_origin).length > 0 &&
-                    block.timestamp < _tokenURI_M._timeStart + 1 minutes) {
+                    ((block.timestamp < _tokenURI_M._timeStart) ||
+                    (block.timestamp >= _tokenURI_M._timeStop)))  {
             return string(abi.encodePacked(base, _tokenURI_M._tokenURI_origin));
-        } else if (bytes(_tokenURI_M._tokenURI_origin).length > 0 &&
-                    block.timestamp >= _tokenURI_M._timeStart + 1 minutes)
+        } else if (bytes(_tokenURI_M._tokenURI_modified).length > 0 &&
+                    block.timestamp >= _tokenURI_M._timeStart  &&
+                    block.timestamp < _tokenURI_M._timeStop)
         {
             return string(abi.encodePacked(base, _tokenURI_M._tokenURI_modified));                    
         }
@@ -95,11 +102,20 @@ import "../ERC721.sol";
     // }
 
 
-    function _setTokenURI_M(uint256 tokenId, string memory _tokenURI, string memory _tokenURI_M, uint64 _timeStart) internal virtual {
+    function _setTokenURI_M(uint256 tokenId, string memory _tokenURI, string memory _tokenURI_M, uint64 _timeStart, uint64 _timeStop) internal virtual {
         require(_exists(tokenId), "ERC721URIStorage: URI set of nonexistent token");
         _tokenURIs[tokenId] = _tokenURI;
 
-        _tokenURIs_M[tokenId] = MyStruct(_tokenURI, _tokenURI_M, _timeStart);
+        _tokenURIs_M[tokenId] = MyStruct(_tokenURI, _tokenURI_M, _timeStart, _timeStop);
+
+        // _tokenURIs_M[tokenId][_tokenURI] = _tokenURI_M;
+    }
+
+    function _changeTokenURI_M(uint256 tokenId, string memory _tokenURI_M, uint64 _timeStart, uint64 _timeStop) internal virtual {
+        require(_exists(tokenId), "ERC721URIStorage: URI set of nonexistent token");
+        // _tokenURIs[tokenId] = _tokenURI;
+
+        MyStruct memory fs = _tokenURIs_M[tokenId]; // = MyStruct(, _tokenURI_M, _timeStart, _timeStop);
 
         // _tokenURIs_M[tokenId][_tokenURI] = _tokenURI_M;
     }
