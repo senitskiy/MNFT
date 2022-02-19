@@ -1,5 +1,6 @@
 import { Paper, Box } from "@mui/material";
 import { CellHistory } from './CellHistory';
+import TabsHistory from './TabsHistory';
 
 export const CardHistory = () => {
     return(
@@ -9,6 +10,7 @@ export const CardHistory = () => {
             }}
         >
             <Box p={2}>
+                <TabsHistory />
                 <CellHistory />
                 <CellHistory />
                 <CellHistory />

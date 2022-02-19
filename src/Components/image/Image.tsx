@@ -13,7 +13,7 @@ export const Image = ({ src, width, height }: ImageProps) => {
         height={height || 300}
         sx={{
             backgroundImage: `url(${src})`,
-            backgroundColor: "#414144",
+            backgroundColor: 'background.paper',
             backgroundRepeat: "no-repeat",
             backgroundPosition: "center",
             backgroundSize: "contain",

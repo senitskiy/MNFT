@@ -19,16 +19,15 @@ export const CardMNFT = () => {
             borderRadius: 8,
         }}>
             <Box
-                p={2}
+                p={1}
                 component="div"
                 sx={{
                     display: "flex",
                     flexDirection: "column",
-                    alignItems: "center",
-                    width: 300,
+                    alignItems: "center"
                 }}
             >
-                <Stack direction="row" spacing={1}>
+                <Stack direction="row" spacing={1} p={1}>
                     <CellUser
                         title="Owner"
                         name="@semgoSE"
@@ -41,8 +40,8 @@ export const CardMNFT = () => {
                     />
                 </Stack>
                 <Image src="https://ipfs.io/ipfs/bafybeig7nf2glzhanp5ecwh42qjv6cp42tj77u4sjdigox623hlap3n3xe/0" width={300} height={300} />
-                <Typography variant="h4" align="left" sx={{ width: "100%" }} p={2}>Name of composition</Typography>
-                <Typography variant="h4" align="left" sx={{ width: "100%" }} p={2}>100$</Typography>
+                <Typography variant="h4" align="left" sx={{ width: "100%" }} p={1}>Name of composition</Typography>
+                <Typography variant="h5" align="left" sx={{ width: "100%" }} p={1}>100$</Typography>
                 <Button variant="text" onClick={() => nav("/mnft")}>Подробнее</Button>
                 {/* <Stack direction="row" spacing={1}>
                     <Button sx={{

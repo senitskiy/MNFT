@@ -32,6 +32,15 @@ const theme = createTheme({
       disabled: '#414144',
     },
   },
+  components: {
+    MuiPaper: {
+      styleOverrides: {
+        root: {
+          backgroundImage: "none"
+        }
+      }
+    }
+  }
 });
 
 const Offset = styled('div')(({ theme }) => theme.mixins.toolbar);
