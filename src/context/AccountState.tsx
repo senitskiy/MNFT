@@ -27,7 +27,6 @@ export const AccountContext = createContext<AccountContext>({
 });
 
 const AccountState = ({ children }: { children: any }) => {
-    const [web3, setWeb3] = useState<Web3>();
     const [account, setAccount] = useState<Account | null>(null);
 
     async function connect() {
