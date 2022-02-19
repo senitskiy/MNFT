@@ -1,19 +1,33 @@
-name: Deployment of M-NFT
-
-concurrency: production
-
-on:
+name: Deploy
+on: 
   push:
-    branches:
-      - main
-
+    branches: [ main ]
 jobs:
-  deployment:
+  deploy:
+    name: "Deploy"
     runs-on: ubuntu-latest
-    environment: production
     steps:
-      - name: deploy
-      - with:
-          token: "${{ github.token }}"
-          target_url: http://my-app-url.com
-          environment: production
+        run: |
+          mkdir -p ~/.ssh/
+          echo "$SSH_KEY" > ~/.ssh/dev.key
+          chmod 600 ~/.ssh/dev.key
+          cat >>~/.ssh/config <<END
+          Host dev
+            HostName $SSH_HOST
+            User $SSH_USER
+            Port $SSH_PORT
+            IdentityFile ~/.ssh/dev.key
+            StrictHostKeyChecking no
+          END
+
+        env:
+          SSH_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          SSH_HOST: ${{ secrets.SSH_HOST }}
+          SSH_USER: ${{ secrets.SSH_USER }}
+          SSH_PORT: ${{ secrets.SSH_PORT }}          
+
+      - name: Deploy from dev (Important how to link npm for sudoers https://stackoverflow.com/questions/62863080/github-actions-err-bash-line-3-npm-command-not-found )
+        run: ssh dev 'cd // && git fetch && git reset --hard origin/main && npm install'
+
+      - name: Restart app (Important how to link pm2 for sudoers https://stackoverflow.com/questions/62863080/github-actions-err-bash-line-3-npm-command-not-found )
+        run: ssh dev 'pm2 restart main'
