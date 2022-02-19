@@ -1,6 +1,6 @@
 {
 	"compiler": {
-		"version": "0.8.4+commit.c7e474f2"
+		"version": "0.8.12+commit.f00d7308"
 	},
 	"language": "Solidity",
 	"output": {
@@ -334,25 +334,6 @@
 				"outputs": [],
 				"stateMutability": "nonpayable",
 				"type": "function"
-			},
-			{
-				"inputs": [
-					{
-						"internalType": "uint256",
-						"name": "_id",
-						"type": "uint256"
-					}
-				],
-				"name": "uri",
-				"outputs": [
-					{
-						"internalType": "string",
-						"name": "",
-						"type": "string"
-					}
-				],
-				"stateMutability": "view",
-				"type": "function"
 			}
 		],
 		"devdoc": {
@@ -411,7 +392,7 @@
 		"compilationTarget": {
 			"contracts/ERC721/extensions/ERC721URIStorage_M.sol": "ERC721URIStorage"
 		},
-		"evmVersion": "istanbul",
+		"evmVersion": "london",
 		"libraries": {},
 		"metadata": {
 			"bytecodeHash": "ipfs"
@@ -448,11 +429,11 @@
 			]
 		},
 		"contracts/ERC721/extensions/ERC721URIStorage_M.sol": {
-			"keccak256": "0xee90c0c961568876c6e411725b45ed819e15cfd5bb25edb932b96e39df88fc73",
+			"keccak256": "0x1c92e5b5cc70fdcec10fba8523f7cbe2922cdea7d9c6d3c9a91c3c76bb207cfa",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://37272be5d76af240ba199e018965c9bc5fd3e2d3adc19b94861e6014ace15b95",
-				"dweb:/ipfs/QmdNEVk9NMrGV3pGcazkjCs9KpUSgZokGKVGueiiyfsqaj"
+				"bzz-raw://f4236590dc62cbadd7218d4220629cad2ae55faf08769ab14697cfc5124c08f6",
+				"dweb:/ipfs/QmYXYoEvV4ZX2qX8KTbw58Ar8TTYhZ9wcPbuBtMJw2KqCJ"
 			]
 		},
 		"contracts/ERC721/extensions/IERC721Metadata.sol": {
