@@ -17,7 +17,7 @@ export const Image = ({ src, width, height }: ImageProps) => {
             backgroundRepeat: "no-repeat",
             backgroundPosition: "center",
             backgroundSize: "contain",
-            borderRadius: 12
+            borderRadius: 8
         }}
     >
     </Box>

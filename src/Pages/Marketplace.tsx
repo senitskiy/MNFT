@@ -15,6 +15,28 @@ const Marketplace = () => {
           <Grid item>
             <CardMNFT />
           </Grid>
+          <Grid item>
+            <CardMNFT />
+          </Grid>
+          <Grid item>
+            <CardMNFT />
+          </Grid>
+          <Grid item>
+            <CardMNFT />
+          </Grid>
+          <Grid item>
+            <CardMNFT />
+          </Grid>
+          <Grid item>
+            <CardMNFT />
+          </Grid>
+          <Grid item>
+            <CardMNFT />
+          </Grid>
+          <Grid item>
+            <CardMNFT />
+          </Grid>
+          
         </Grid>
     </Box>
   );
