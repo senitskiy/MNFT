@@ -74,7 +74,7 @@ const theme = createTheme({
       lineHeight: 1.4,
     },
     button: {
-      fontSize: 20,
+      fontSize: 17,
       fontWeight: 600,
       textTransform: "none"
     },
@@ -101,7 +101,7 @@ function App() {
         <Offset />
         <Routes>
           <Route path='/' element={<Marketplace />} />
-          <Route path='/mnft:address' element={<MNFT />} />
+          <Route path='/mnft/:address' element={<MNFT />} />
           <Route path='/create' element={<CreateMNFT />} />
           <Route path='/rent/:address' element={<RentMNFT />} />
         </Routes>
