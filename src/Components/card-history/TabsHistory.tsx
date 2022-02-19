@@ -2,13 +2,11 @@ import { buttonUnstyledClasses, TabPanelUnstyled, TabsListUnstyled, TabsUnstyled
 import { styled } from "@mui/material";
 
 const Tab = styled(TabUnstyled)(({ theme }) => (`
-    font-family: IBM Plex Sans, sans-serif;
-    color: white;
+    color: ${theme.palette.text.primary};
     cursor: pointer;
-    font-size: 0.875rem;
+    width: 100%;
     font-weight: bold;
     background-color: transparent;
-    width: 100%;
     padding: 12px 16px;
     margin: 6px 6px;
     border: none;
@@ -29,7 +27,6 @@ const Tab = styled(TabUnstyled)(({ theme }) => (`
 /* font-family: IBM Plex Sans, sans-serif; */
 
 const TabsList = styled(TabsListUnstyled)(({ theme }) => ({
-    minWidth: 320,
     backgroundColor: theme.palette.background.default,
     borderRadius: 8,
     marginBottom: 16,
@@ -43,8 +40,8 @@ export default function TabsHistory() {
     return (
         <TabsUnstyled defaultValue={0}>
             <TabsList>
-                <Tab>One</Tab>
-                <Tab>Two</Tab>
+                <Tab>AD History</Tab>
+                <Tab>Sell History</Tab>
             </TabsList>
         </TabsUnstyled>
     );

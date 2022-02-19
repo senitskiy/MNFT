@@ -10,9 +10,9 @@ const TypographyNickname = styled(Typography)(({ theme }) => ({
 
 export const CellHistory = () => {
     return(
-        <Stack direction="row" spacing={1} p={1}>
-            <Image width={78} height={78} />
-            <Stack direction="column" spacing={1}>
+        <Stack direction="row" spacing={1} p={1} justifyContent="space-between">
+            <Image width={100} height={100} />
+            <Stack direction="column" justifyContent="center" spacing={1}>
                 <div 
                     style={{
                         display: "flex",
