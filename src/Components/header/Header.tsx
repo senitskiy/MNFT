@@ -17,7 +17,7 @@ export const Header = () => {
     //     setId(localStorage.getItem("account"))
     // }, [])
 
-    const { account } = useContext(AccountContext);
+    const { account, connect } = useContext(AccountContext);
 
     return (
         <AppBar position="fixed" color="transparent" elevation={0}>
@@ -29,7 +29,9 @@ export const Header = () => {
                 <Button variant="text" color="secondary" onClick={() => nav("/create")}>Create</Button>
                 {account ?
                     <Avatar /> :
-                    <Button variant="contained" onClick={() => nav("/create")}>Sign In</Button>
+                    <Button variant="contained" onClick={() => {
+                        connect();
+                    }}>Sign In</Button>
                 }
                 <Box sx={{ flexGrow: 1, display: { xs: 'none', sm: 'block' } }} />
             </Toolbar>

@@ -22,8 +22,8 @@ interface AccountContext {
 
 export const AccountContext = createContext<AccountContext>({
     account: null,
-    setAccount: () => {},
-    connect: () => {}
+    setAccount: () => { },
+    connect: () => { }
 });
 
 const AccountState = ({ children }: { children: any }) => {
@@ -31,23 +31,23 @@ const AccountState = ({ children }: { children: any }) => {
     const [account, setAccount] = useState<Account | null>(null);
 
     async function connect() {
-        const web3Modal = new Web3Modal({
-            network: "rinkeby",
-            cacheProvider: false
-          });
-          
-        const provider = await web3Modal.connect();
-        const web3 = new Web3(provider);
-        
-        const accounts = await web3.eth.getAccounts();
-        setAccount((prev) => ({
-            ...prev,
-            web3,
-            address: accounts[0]
-        }))
 
-        localStorage.setItem("account",accounts[0])
-        console.log("accounts[0]",accounts[0])
+        try {
+            const web3Modal = new Web3Modal({
+                network: "rinkeby",
+                cacheProvider: false
+            });
+    
+            const provider = await web3Modal.connect();
+            const web3 = new Web3(provider);
+
+            const accounts = await web3.eth.getAccounts();
+            setAccount((prev) => ({
+                ...prev,
+                web3,
+                address: accounts[0]
+            }))
+        } catch (e) { }
     }
 
     return (

@@ -74,7 +74,7 @@ export const ProcessedCreateNft = ({ open, onClose, form }: ProcessedCreateNftPr
                     address: receiptMint.contractAddress
                 });
             }).on("error", (err: any) => {
-                close();
+                onClose()
             });
         });
     }
