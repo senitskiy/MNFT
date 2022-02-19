@@ -23,7 +23,7 @@ interface ContactMNFT {
     MNFT: any
 }
 
-export const ProcessedCreateNft = ({ open, onClose: close, form }: ProcessedCreateNftProps) => {
+export const ProcessedCreateNft = ({ open, onClose, form }: ProcessedCreateNftProps) => {
     const { account } = useContext(AccountContext)
     const [step, updateStep] = useState<Step>(null);
 
@@ -102,10 +102,6 @@ export const ProcessedCreateNft = ({ open, onClose: close, form }: ProcessedCrea
         })
     }
 
-    async function onClose() {
-        close();
-    }
-
     useEffect(() => {
         async function createMnt() {
             updateStep("upload");
@@ -118,6 +114,7 @@ export const ProcessedCreateNft = ({ open, onClose: close, form }: ProcessedCrea
             await mintMNFT(receiptMint);
             updateStep("create_mnft");
             await createMNFT(receiptMint, cid);
+            onClose();
         }
 
         if (open) {
@@ -150,6 +147,10 @@ export const ProcessedCreateNft = ({ open, onClose: close, form }: ProcessedCrea
                     <Stack direction="row" alignItems="center" spacing={2}>
                         {step === "mint" ? <CircularProgress /> : <Icon28DoneOutline height={44} width={44} />}
                         <Typography color="text.primary">Mint</Typography>
+                    </Stack>
+                    <Stack direction="row" alignItems="center" spacing={2}>
+                        {step === "create_mnft" ? <CircularProgress /> : <Icon28DoneOutline height={44} width={44} />}
+                        <Typography color="text.primary">Create MNFT</Typography>
                     </Stack>
                     {!open &&
                         <Box>
