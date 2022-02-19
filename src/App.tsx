@@ -9,6 +9,7 @@ import { Header } from './Components/header/Header';
 import Marketplace from './Pages/Marketplace';
 import { MNFT } from './Pages/MNFT/mnft/MNFT';
 import { CssBaseline } from '@mui/material';
+import { RentMNFT } from './Pages/MNFT/rent/RentMNFT';
 
 const theme = createTheme({
   palette: {
@@ -30,6 +31,52 @@ const theme = createTheme({
       primary: '#FEFEFE',
       secondary: '#636366',
       disabled: '#414144',
+    },
+  },
+  typography: {
+    h1: {
+      fontWeight: 600,
+      fontSize: 48,
+      lineHeight: 1.4,
+    },
+    fontFamily: 'Montserrat',
+    fontSize: 17,
+    fontWeightLight: 300,
+    htmlFontSize: 17,
+    h3: {
+      fontSize: 20,
+      lineHeight: 1.4,
+      fontWeight: 600,
+    },
+    h2: {
+      fontSize: 24,
+      fontWeight: 600,
+      lineHeight: 1.4,
+    },
+    h4: {
+      fontSize: 17,
+      fontWeight: 600,
+      lineHeight: 1.4,
+    },
+    subtitle1: {
+      fontSize: 24,
+      fontWeight: 300,
+      lineHeight: 1.4,
+    },
+    body1: {
+      fontSize: 20,
+      fontWeight: 300,
+      lineHeight: 1.4,
+    },
+    body2: {
+      fontSize: 17,
+      fontWeight: 300,
+      lineHeight: 1.4,
+    },
+    button: {
+      fontSize: 20,
+      fontWeight: 600,
+      textTransform: "none"
     },
   },
   components: {
@@ -54,8 +101,9 @@ function App() {
         <Offset />
         <Routes>
           <Route path='/' element={<Marketplace />} />
-          <Route path='/mnft' element={<MNFT />} />
+          <Route path='/mnft:address' element={<MNFT />} />
           <Route path='/create' element={<CreateMNFT />} />
+          <Route path='/rent/:address' element={<RentMNFT />} />
         </Routes>
       </Grid>
     </ThemeProvider>

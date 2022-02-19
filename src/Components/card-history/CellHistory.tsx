@@ -18,8 +18,8 @@ export const CellHistory = () => {
                         display: "flex",
                         justifyContent: "space-between"
                 }}>
-                    <Typography>1.3 ETH</Typography>
-                    <Typography>5 min</Typography>
+                    <Typography variant="body2">1.3 ETH</Typography>
+                    <Typography variant="body2">5 min</Typography>
                 </div>
                 <Stack 
                     direction="row"
@@ -27,7 +27,7 @@ export const CellHistory = () => {
                     alignItems="center"
                 >
                     <Avatar />
-                    <TypographyNickname>@semgoSE</TypographyNickname>
+                    <TypographyNickname variant="body2">@semgoSE</TypographyNickname>
                 </Stack>
             </Stack>
         </Stack>
