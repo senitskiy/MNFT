@@ -1,0 +1,19 @@
+name: Deployment of M-NFT
+
+concurrency: production
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deployment:
+    runs-on: ubuntu-latest
+    environment: production
+    steps:
+      - name: deploy
+      - with:
+          token: "${{ github.token }}"
+          target_url: http://my-app-url.com
+          environment: production
