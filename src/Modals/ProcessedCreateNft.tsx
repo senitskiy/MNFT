@@ -122,10 +122,12 @@ export const ProcessedCreateNft = ({ open, onClose, form }: ProcessedCreateNftPr
             variables: {
                 input: {
                     address: contract.address,
+                    creator: account.address,
+                    owner: account.address,
                     name: form.name,
                     description: form.description,
-                    cost: form.cost,
-                    costAd: form.costAd,
+                    cost: Number(form.cost),
+                    costAd: Number(form.costAd),
                     image: `ipfs://${cidImage}`,
                     blockchain: 0,
                     standart: 721,

@@ -1,11 +1,26 @@
 import { Box, Grid, Stack, Button } from "@mui/material";
-import { useRef, useState } from "react";
+import { useRef, useState, useContext } from "react";
 import { ImageEditor } from "../../../Components/image-editor/imageEditor";
 import { Image } from "../../../Components/image/Image";
 import { Input } from "./../../../Components/input/Input";
+import { AccountContext } from './../../../context/AccountState';
+
+interface RentFormNFT {
+    timeStart?: Date,
+    timeEnd?: Date,
+    costAd?: number
+}
+
 export const RentMNFT = () => {
+  const { account } = useContext(AccountContext);
+  const [form, setForm] = useState<RentFormNFT>({ });
   const ADVImageRef = useRef<any>();
   const [ADVImageUrl, setADVImageUrl] = useState();
+
+  async function changeMNFT() {
+
+  }
+
   return (
     <Stack
       height="calc(100% - 64px)"
@@ -68,10 +83,7 @@ export const RentMNFT = () => {
           </Grid>
           <Grid item xs={12}>
             <Stack spacing={2} direction="row">
-              <Button variant="contained">Apply</Button>
-              {/* <Button variant="contained" onClick={mintNFT}>Publish original</Button> */}
-              {/* <Button onClick={Mint}>Mint</Button>
-                                <Button onClick={CreateMNft}>create M-Nft</Button> */}
+              <Button variant="contained" >Apply</Button>
             </Stack>
           </Grid>
         </Grid>

@@ -3,15 +3,19 @@ import { noop } from "lodash";
 import { TextField, styled, TextFieldProps } from "@mui/material";
 
 export const Input = (props: TextFieldProps & {
-    min?: number,
-    max?: number
+    min?: number | Date,
+    max?: number | Date
 }) => {
     return(
         <TextField
             {...props}
             variant="filled"
+            inputProps={{
+                min: props.min,
+                max: props.max
+            }}
             InputProps={{ 
-                disableUnderline: true, 
+                disableUnderline: true,
                 sx: ({ palette, shape }) => ({
                     borderRadius: shape.borderRadius,
                     backgroundColor: palette.background.paper,
