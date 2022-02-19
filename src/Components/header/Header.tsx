@@ -24,9 +24,9 @@ export const Header = () => {
             <Toolbar sx={{ display: "flex", gap: 4 }}>
                 <Box sx={{ flexGrow: 1, display: { xs: 'none', sm: 'block' } }} />
                 <Search placeholder="Search NFTs" />
-                <Button variant="text" onClick={() => nav("/")}>Explore</Button>
+                <Button variant="text" size="large" onClick={() => nav("/")}>Explore</Button>
                 <Box sx={{ flexGrow: 1, display: { xs: 'none', sm: 'block' } }} />
-                <Button variant="text" color="secondary" onClick={() => nav("/create")}>Create</Button>
+                <Button variant="text" size="large" color="secondary" onClick={() => nav("/create")}>Create</Button>
                 {account ?
                     <Avatar /> :
                     <Button variant="contained" onClick={() => {

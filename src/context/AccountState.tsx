@@ -30,7 +30,6 @@ const AccountState = ({ children }: { children: any }) => {
     const [account, setAccount] = useState<Account | null>(null);
 
     async function connect() {
-
         try {
             const web3Modal = new Web3Modal({
                 network: "rinkeby",

@@ -7,73 +7,31 @@ import './App.css';
 import CreateMNFT from "./Pages/MNFT/create/CreateMNFT";
 import { Header } from './Components/header/Header';
 import Marketplace from './Pages/Marketplace';
+import { MNFT } from './Pages/MNFT/mnft/MNFT';
+import { CssBaseline } from '@mui/material';
 
 const theme = createTheme({
-  shape: {
-    borderRadius: 3,
-  },
-  spacing: 8,
   palette: {
-    mode: "dark",
-    background: {
-      default: "#1C1C1E",
-      paper: "#2E3032",
-    },
-    common: {
-      white: "#FEFEFE",
-      black: "#1C1C1E"
-    },
-    grey: {
-      900: "#2E3032",
-      700: "#414144",
-      500: "#636366",
-      50: "#F1F1F1"
-    },
+    mode: 'dark',
     primary: {
-      main: "#0085FF"
+      main: '#0085FF',
+      dark: '#0085FF',
+      light: '#FEFEFE',
+      contrastText: '#FEFEFE',
     },
     secondary: {
-      main: "#FEFEFE"
+      main: '#FEFEFE',
+    },
+    background: {
+      default: '#1C1C1E',
+      paper: '#2E3032',
     },
     text: {
-      primary: "#FEFEFE",
-      secondary: "#636366",
+      primary: '#FEFEFE',
+      secondary: '#636366',
+      disabled: '#414144',
     },
   },
-  typography: {
-    h1: {
-      fontSize: 48,
-      fontWeight: 600,
-    },
-    h4: {
-      fontSize: 24,
-      fontWeight: 600,
-    },
-    body1: {
-      fontSize: 17,
-      fontWeight: 300,
-    },
-    subtitle1: {
-      fontWeight: 300,
-      fontSize: 17
-    },
-  },
-  components: {
-    MuiButton: {
-      styleOverrides: {
-        root: {
-          textTransform: "none"
-        }
-      }
-    },
-    MuiPaper: {
-      styleOverrides: {
-        root: {
-          backgroundImage: "none",  
-        }
-      },
-    },
-  }
 });
 
 const Offset = styled('div')(({ theme }) => theme.mixins.toolbar);
@@ -81,11 +39,13 @@ const Offset = styled('div')(({ theme }) => theme.mixins.toolbar);
 function App() {
   return (
     <ThemeProvider theme={theme}>
+      <CssBaseline />
       <Grid component="main" sx={{ height: "100vh", backgroundColor: "background.default" }}>
         <Header />
         <Offset />
         <Routes>
           <Route path='/' element={<Marketplace />} />
+          <Route path='/mnft' element={<MNFT />} />
           <Route path='/create' element={<CreateMNFT />} />
         </Routes>
       </Grid>
