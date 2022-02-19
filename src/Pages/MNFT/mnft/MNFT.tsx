@@ -1,7 +1,10 @@
+import { Box } from "@mui/material";
+import { Image } from "../../../Components/image/Image";
+
 export const MNFT = () => {
-    return(
-        <div>
-            
-        </div>
+    return (
+        <Box sx={{ display: "flex", justifyContent: "center" }}>
+            <Image />
+        </Box>
     );
 }

@@ -7,6 +7,7 @@ import { Input } from "../../../Components/input/Input"
 import { AccountContext } from "../../../context/AccountState"
 import { useDropzone } from 'react-dropzone'
 import { ProcessedCreateNft } from './../../../Modals/ProcessedCreateNft';
+import { Image } from "../../../Components/image/Image";
 
 export interface MNFTForm {
     image_preview?: string | ArrayBuffer,
@@ -87,7 +88,7 @@ const CreateMNFT = () => {
     return (
         <Box>
             <Stack spacing={2} sx={{ height: "calc(100vh - 64px)" }} direction="row" justifyContent="center" alignItems="center">
-                <Paper sx={{ borderRadius: 10 }}>
+                <Paper sx={{ borderRadius: 12 }}>
                     {!form.image ? <Box
                         sx={{
                             display: "flex",
@@ -111,19 +112,11 @@ const CreateMNFT = () => {
                             }
                         </>
                     </Box> :
-                        <Box
+                        <Image 
+                            src={form.image_preview as string}
                             width={400}
                             height={400}
-                            sx={{
-                                backgroundImage: `url(${form.image_preview})`,
-                                backgroundColor: "background.paper",
-                                backgroundRepeat: "no-repeat",
-                                backgroundPosition: "center",
-                                backgroundSize: "contain",
-                                borderRadius: 8
-                            }}
-                        >
-                        </Box>
+                        />
                     }
                 </Paper>
 
