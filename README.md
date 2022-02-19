@@ -1,15 +1,19 @@
-### $ npm install
-### $ npm run start
-### open in chrome: http://localhost:3000/
-### push button “create”;
-### push button “connect Metamask” and approve;
-### add picture to drag&drop;
-### add “Name of composition”
-### add “Description”
-### add price of NFT;
-### add price of on week ad;
-### push button “Publish”
-### add change picture to drag&drop
-### push button “Publish original”
-### push button “mint’
-### push button “create M-NFT”
+# M- NFT  Evolution of NFT
+### Описание
+«MNFT» это технология модифицированного смарт контракта (M-NFT) для NFT токенов. Созданные и перенесённые на M-NFT токены могут размещать дополнительный слой (маску) поверх оригинального изображения. Технология позволит модифицировать NFT под запросы рекламного бизнеса, а также может быть использована в крипто гейминге, коллективном творчестве и защите авторских прав.
+NFT Токены можно как создавать, так и переносить на M-NFT с помощью одноимённого сервиса.
+
+###  Проблемы на рынке 
+Владельцам NFT не имеют другой возможности заработка кроме как продажи NFT.
+
+Криптосообщества и криптобренды нуждаются в рекламе с охватом целевой аудитории
+При на GOOGLE и Facebook, действует ограничение на рекламу криптопродуктов.
+Мы решаем проблему владельцев NFT  и рекламодателей. WIN -WIN
+
+
+### Get started
+```
+git clone https://github.com/senitskiy/M-NFT.git
+yarn install
+yarn start
+```
