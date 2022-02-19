@@ -1,3 +1,4 @@
+from typing_extensions import Required
 import graphene
 from django.forms import ModelForm
 from graphene_django import DjangoObjectType
@@ -27,7 +28,11 @@ class Query(graphene.ObjectType):
 
     def resolve_getMNFT(root, info, address):
         if address is not None:
-            return MNFT.objects.get(pk=address)
+            try:
+                return MNFT.objects.get(pk=address)
+            except Exception as err:
+                print(f"ERROR: {err}")
+                return None
         else:
             return None
 
@@ -36,13 +41,17 @@ class Query(graphene.ObjectType):
 
     def resolve_getUser(root, info, address):
         if address is not None:
-            return User.objects.get(pk=address)
+            try:
+                u = User.objects.get(pk=address)
+            except Exception as err:
+                print(f"ERROR: {err}")
+                return None
         else:
             return None
 
 
 class UserInput(graphene.InputObjectType):
-    address = graphene.String()
+    address = graphene.String(required=True)
     image = graphene.String()
     name = graphene.String()
     email = graphene.String()
@@ -50,7 +59,7 @@ class UserInput(graphene.InputObjectType):
 
 class MNFTInput(graphene.InputObjectType):
     blockchain = graphene.Int()
-    address = graphene.String()
+    address = graphene.String(required=True)
     symbol = graphene.String()
     standart = graphene.Int()
     lastUpdate = graphene.Date()
@@ -67,7 +76,7 @@ class MNFTInput(graphene.InputObjectType):
 class createMNFT(graphene.Mutation):
     class Arguments:
         # address = graphene.String(required=True)
-        input = MNFTInput(required=True)
+        input = MNFTInput()
     ok = graphene.Boolean()
     MNFT = graphene.Field(MNFTType)
 
@@ -95,7 +104,7 @@ class createMNFT(graphene.Mutation):
 class updateMNFT(graphene.Mutation):
     class Arguments:
         address = graphene.String(required=True)
-        input = MNFTInput(required=True)
+        input = MNFTInput()
     ok = graphene.Boolean()
     MNFT = graphene.Field(MNFTType)
 
@@ -125,7 +134,7 @@ class updateMNFT(graphene.Mutation):
 
 class createUser(graphene.Mutation):
     class Arguments:
-        input = UserInput(required=True)
+        input = UserInput()
     ok = graphene.Boolean()
     user = graphene.Field(UserType)
 
@@ -137,14 +146,13 @@ class createUser(graphene.Mutation):
                              name=input.name,
                              email=input.email)
         user_instance.save()
-        print(user_instance)
         return createUser(ok=ok, user=user_instance)
 
 
 class updateUser(graphene.Mutation):
     class Arguments:
         address = graphene.String(required=True)
-        input = UserInput(required=True)
+        input = UserInput()
     ok = graphene.Boolean()
     user = graphene.Field(UserType)
 
@@ -164,7 +172,7 @@ class updateUser(graphene.Mutation):
 
 class createOrUpdateUser(graphene.Mutation):
     class Arguments:
-        input = UserInput(required=True)
+        input = UserInput()
     ok = graphene.Boolean()
     user = graphene.Field(UserType)
 
