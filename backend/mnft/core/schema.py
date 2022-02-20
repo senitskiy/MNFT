@@ -111,10 +111,10 @@ class createMNFT(graphene.Mutation):
         mnft_instanse.save()
         s = requests.Session()
         answ = s.request(
-            "DELETE", f"https://api-staging.rarible.org/v0.1/items/{blockchain}:{address}:0/resetMeta")
+            "DELETE", f"https://api-staging.rarible.org/v0.1/items/ETHERIUM:{address}:0/resetMeta")
         print("RESET RARRIBLE: ", answ)
         answ = s.request(
-            "GET", f"https://api-staging.rarible.org/v0.1/items/{blockchain}:{address}:0")
+            "GET", f"https://api-staging.rarible.org/v0.1/items/ETHERIUM:{address}:0")
         print("GETELEMENTID RARRIBLE: ", answ)
         return createMNFT(ok=ok, MNFT=mnft_instanse)
 
@@ -153,10 +153,10 @@ class updateMNFT(graphene.Mutation):
             s = requests.Session()
 
             answ = s.request(
-                "DELETE", f"https://api-staging.rarible.org/v0.1/items/{blockchain}:{address}:0/resetMeta")
+                "DELETE", f"https://api-staging.rarible.org/v0.1/items/ETHERIUM:{address}:0/resetMeta")
             print("RESET RARRIBLE: ", answ)
             answ = s.request(
-                "GET", f"https://api-staging.rarible.org/v0.1/items/{blockchain}:{address}:0")
+                "GET", f"https://api-staging.rarible.org/v0.1/items/ETHERIUM:{address}:0")
             print("GETELEMENTID RARRIBLE: ", answ)
             return updateMNFT(ok=ok, MNFT=mnft_instance)
         return updateMNFT(ok=ok, MNFT=None)
