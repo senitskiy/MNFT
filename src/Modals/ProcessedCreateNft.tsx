@@ -5,8 +5,9 @@ import { Avatar, Box, Button, CircularProgress, Dialog, Paper, Stack, styled, Ty
 import { MNFTForm } from "../Pages/MNFT/create/CreateMNFT";
 import { renameFile } from './../Components/utils/renameFile';
 
-import abi from "../contract/contract.json";
-import bs from "../contract/contract_bs.json";
+//@ts-ignore
+import bs from "../contracts/abi/bytecode.json";
+import abi from "../contracts/abi/abi.json";
 import { AccountContext } from './../context/AccountState';
 import { Icon28DoneOutline } from "@vkontakte/icons";
 import { gql } from '@apollo/client';
@@ -79,7 +80,11 @@ export const ProcessedCreateNft = ({ open, onClose, form }: ProcessedCreateNftPr
             });
     
             MNFT.deploy({
-                data: bs.object
+                data: bs.object,
+                arguments: [
+                    "v.0.1.09",
+                    "M-NFT"
+                ],
             }).send({
                 from: account.address!,
                 gas: 3000000,
