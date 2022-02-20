@@ -78,7 +78,10 @@ export const ProcessedRentMnft = ({ open, onClose, form }: ProcessedRentMNftProp
         return new Promise(async (resolve, reject) => {
             console.log(account);
             if (!account) reject();
-            if (!account.web3) reject();
+            if (!account?.web3) {
+                reject();
+                return;
+            }
 
             //@ts-ignore
             const MNFT = new account.web3.eth.Contract(abi.output.abi, form.mnft.address, {
@@ -86,10 +89,12 @@ export const ProcessedRentMnft = ({ open, onClose, form }: ProcessedRentMNftProp
                 gas: 3000000,
             });
 
+            console.log(0, `ipfs://${cid}/0`, form.timeStart.getTime(), form.timeEnd.getTime());
+
             const res = await account.web3!.eth.sendTransaction({
                 to: form.mnft.address,
                 from: account.address!,
-                data: MNFT.methods.change_M_NFT(0, `ipfs://${cid}/0`, form.timeStart.getTime(), form.timeEnd.getTime()).encodeABI(),
+                data: MNFT.methods.change_M_NFT(0, `ipfs://${cid}/0`, form.timeStart.getTime()/1000, form.timeEnd.getTime()/1000).encodeABI(),
                 gas: 3000000,
             });
         });
@@ -100,8 +105,8 @@ export const ProcessedRentMnft = ({ open, onClose, form }: ProcessedRentMNftProp
         async function init() {
             updateStep("upload");
             const { cidImage, cidJson } = await uploadToIPFS();
-            console.log(cidImage);
-            changeMNFT(cidImage)
+            console.log(cidJson);
+            changeMNFT(cidJson)
             // updateStep("mint");
             // await mintMNFT(receiptMint);
             // updateStep("create_mnft");
