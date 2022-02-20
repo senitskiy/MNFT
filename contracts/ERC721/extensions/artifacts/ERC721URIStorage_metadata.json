@@ -429,11 +429,11 @@
 			]
 		},
 		"contracts/ERC721/extensions/ERC721URIStorage_M.sol": {
-			"keccak256": "0xb35e129ca7a78a75ab7ab19940511fb3266ebb081ae5327732450c72e65ce92a",
+			"keccak256": "0xf09a85ca8b7df109e07037643b5ea6279a20a3365c7f710ca73147a0c21cff04",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://adc1576eeb70bc3906c20a02bd7edd9ad9378945bba5fc5de5af3e1bbc2351d0",
-				"dweb:/ipfs/QmdL3pdK1Kj44t2DRAv1wXtQ3jyhPA7CTTtzM8qjmzYroG"
+				"bzz-raw://b1e7aca815de8fbad5938553cbeb32e4f84031965d0db15bbef9235fb5da8d7f",
+				"dweb:/ipfs/QmVPjUe5DrfkQN729DFex6eQhkZhdyo2BFqQYpWmoHGKee"
 			]
 		},
 		"contracts/ERC721/extensions/IERC721Metadata.sol": {
