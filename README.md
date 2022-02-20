@@ -15,3 +15,30 @@ yarn start
 ```
 REACT_APP_WEB3_STORAGE_KEY = ...
 ```
+
+### Run backend 
+
+```
+cd backend
+pip install -r req.txt 
+cd mnft
+python manage.py migrate
+python manage.py runserver 0.0.0.0:8000
+```
+URL for request: http://localhost:8000/graphql
+
+
+### GraphQL 
+#### Query:
+getAllNFT
+getNFT(address)
+getAllUser
+getUser(address)
+
+#### Mutation
+createMNFT(input)
+updateMNFT(address, input)
+createUser(input)
+updateUser(address, input)
+createOrUpdate(address, input)
+
