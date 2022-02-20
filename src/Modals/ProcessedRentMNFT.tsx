@@ -88,7 +88,7 @@ export const ProcessedRentMnft = ({ open, onClose, form }: ProcessedRentMNftProp
             const res = await account.web3!.eth.sendTransaction({
                 to: form.mnft.address,
                 from: account.address!,
-                data: MNFT.methods.mint().encodeABI(),
+                data: MNFT.methods.change_M_NFT().encodeABI(),
                 gas: 3000000,
             });
         });

@@ -12,6 +12,7 @@ import { Icon28DoneOutline } from "@vkontakte/icons";
 import { gql } from '@apollo/client';
 import { useMutation } from '@apollo/client';
 import { CreateMnftMutation, CreateMnftMutationVariables } from "../../graphql/generated";
+import { useNavigate } from "react-router-dom";
 
 interface ProcessedCreateNftProps {
     open: boolean,
@@ -38,6 +39,7 @@ export const ProcessedCreateNft = ({ open, onClose, form }: ProcessedCreateNftPr
     const { account } = useContext(AccountContext)
     const [bcreateMNFT] = useMutation<CreateMnftMutation, CreateMnftMutationVariables>(CREATE_MNFT);
     const [step, updateStep] = useState<Step>(null);
+    const nav = useNavigate();
 
     async function uploadToIPFS(): Promise<{ cidImage: string, cidJson: string }> {
         const client = new Web3Storage({ token: process.env.REACT_APP_WEB3_STORAGE_KEY });
@@ -150,7 +152,9 @@ export const ProcessedCreateNft = ({ open, onClose, form }: ProcessedCreateNftPr
             await createMNFT(receiptMint, cidJson);
             updateStep("approveMNFT");
             await approveMNFT(receiptMint, cidJson, cidImage);
+            nav('/')
             onClose();
+
         }
 
         if (open) {
