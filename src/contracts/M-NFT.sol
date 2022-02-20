@@ -31,7 +31,7 @@ contract M_NFT is ERC721, ERC721URIStorage, Ownable {
         _;
     }
 
-    constructor() ERC721("v.0.1.09", "M-NFT") {
+    constructor() ERC721("v.0.1.10", "M-NFT") {
         // owner = msg.sender;
     }
 
