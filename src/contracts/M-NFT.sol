@@ -83,11 +83,11 @@ contract M_NFT is ERC721, ERC721URIStorage, Ownable {
         _tokenApprovalsMNFT[tokenId] = to;
     }
 
-    function() public payable returns (uint256)
-    {
-        // if (msg.value > 0)
-        //     Deposit(msg.sender, msg.value);
-    }
+    // function() public payable returns (uint256)
+    // {
+    //     // if (msg.value > 0)
+    //     //     Deposit(msg.sender, msg.value);
+    // }
 
     // function bytesBase() public view returns (bytes) {
     //     string base = _baseURI();
