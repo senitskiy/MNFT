@@ -28,8 +28,8 @@ class MNFT(models.Model):
     name = models.CharField(max_length=300)
     description = models.CharField(max_length=300, null=True, blank=True)
     image = models.CharField(max_length=300)
-    cost = models.IntegerField(default=0)
-    costAd = models.IntegerField(default=0)
+    cost = models.FloatField(default=0.0)
+    costAd = models.FloatField(default=0.0)
     creator = models.ForeignKey(
         User, on_delete=models.CASCADE, related_name="mnfts_creator")
     owner = models.ForeignKey(
