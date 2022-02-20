@@ -1,5 +1,7 @@
+from cmath import log
 from typing_extensions import Required
 import graphene
+import requests
 from django.forms import ModelForm
 from graphene_django import DjangoObjectType
 from graphene_django.forms.mutation import DjangoModelFormMutation
@@ -139,6 +141,12 @@ class updateMNFT(graphene.Mutation):
             mnft_instance.owner = uOwner
             mnft_instance.sponsor = uSponsor
             mnft_instance.save()
+            s = requests.Session()
+
+            answ = s.request("DELETE", f"https://api-staging.rarible.org/v0.1/items/{blockchain}:{address}:0/resetMeta")
+            print("RESET RARRIBLE: ", answ)
+            answ = s.request("GET", f"https://api-staging.rarible.org/v0.1/items/{blockchain}:{address}:0")
+            print("RESET RARRIBLE: ", answ)
             return updateMNFT(ok=ok, MNFT=mnft_instance)
         return updateMNFT(ok=ok, MNFT=None)
 
