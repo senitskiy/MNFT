@@ -30,15 +30,15 @@ URL for request: http://localhost:8000/graphql
 
 ### GraphQL 
 #### Query:
-getAllNFT
-getNFT(address)
-getAllUser
-getUser(address)
+- getAllNFT
+- getNFT(address)
+- getAllUser
+- getUser(address)
 
 #### Mutation
-createMNFT(input)
-updateMNFT(address, input)
-createUser(input)
-updateUser(address, input)
-createOrUpdate(address, input)
+- createMNFT(input)
+- updateMNFT(address, input)
+- createUser(input)
+- updateUser(address, input)
+- createOrUpdate(address, input)
 
