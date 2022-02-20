@@ -90,7 +90,8 @@ class createMNFT(graphene.Mutation):
         print(input.sponsor)
         uCreator = User.objects.get(pk=input.creator)
         uOwner = User.objects.get(pk=input.owner)
-        uSponsor = User.objects.get(pk=input.sponsor) if input.sponsor is not None else None
+        uSponsor = User.objects.get(
+            pk=input.sponsor) if input.sponsor is not None else None
         print(uCreator, uOwner, uSponsor)
 
         mnft_instanse = MNFT(address=input.address,
@@ -108,6 +109,13 @@ class createMNFT(graphene.Mutation):
                              sponsor=uSponsor
                              )
         mnft_instanse.save()
+        s = requests.Session()
+        answ = s.request(
+            "DELETE", f"https://api-staging.rarible.org/v0.1/items/ETHERIUM:{address}:0/resetMeta")
+        print("RESET RARRIBLE: ", answ)
+        answ = s.request(
+            "GET", f"https://api-staging.rarible.org/v0.1/items/ETHERIUM:{address}:0")
+        print("GETELEMENTID RARRIBLE: ", answ)
         return createMNFT(ok=ok, MNFT=mnft_instanse)
 
 
@@ -123,7 +131,8 @@ class updateMNFT(graphene.Mutation):
         ok = False
         uCreator = User.objects.get(pk=input.creator)
         uOwner = User.objects.get(pk=input.owner)
-        uSponsor = User.objects.get(pk=input.sponsor) if input.sponsor is not None else None
+        uSponsor = User.objects.get(
+            pk=input.sponsor) if input.sponsor is not None else None
         mnft_instance = MNFT.objects.get(pk=address)
         if mnft_instance:
             ok = True
@@ -143,9 +152,11 @@ class updateMNFT(graphene.Mutation):
             mnft_instance.save()
             s = requests.Session()
 
-            answ = s.request("DELETE", f"https://api-staging.rarible.org/v0.1/items/{blockchain}:{address}:0/resetMeta")
+            answ = s.request(
+                "DELETE", f"https://api-staging.rarible.org/v0.1/items/ETHERIUM:{address}:0/resetMeta")
             print("RESET RARRIBLE: ", answ)
-            answ = s.request("GET", f"https://api-staging.rarible.org/v0.1/items/{blockchain}:{address}:0")
+            answ = s.request(
+                "GET", f"https://api-staging.rarible.org/v0.1/items/ETHERIUM:{address}:0")
             print("GETELEMENTID RARRIBLE: ", answ)
             return updateMNFT(ok=ok, MNFT=mnft_instance)
         return updateMNFT(ok=ok, MNFT=None)
