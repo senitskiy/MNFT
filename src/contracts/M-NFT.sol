@@ -22,9 +22,16 @@ contract M_NFT is ERC721, ERC721URIStorage, Ownable {
     //     require(msg.sender == owner, NOT_CURRENT_OWNER);
     //     _;
     // }
+    bool public approveMNF;
+    address public Sponsor;  
+    mapping(uint256 => address) private _tokenApprovalsMNFT;
 
+    modifier sponsor() {
+        //require(msg.sender == Sponsor);
+        _;
+    }
 
-    constructor() ERC721("v.0.1.08", "M-NFT") {
+    constructor() ERC721("v.0.1.09", "M-NFT") {
         // owner = msg.sender;
     }
 
@@ -59,6 +66,7 @@ contract M_NFT is ERC721, ERC721URIStorage, Ownable {
     function change_M_NFT(uint256 tokenId, string memory tokenURI_M, uint64 timeStart, uint64 timeStop)
         public
         onlyOwner
+        //sponsor
     {        
         // super._setTokenURI_M(tokenId, tokenURI, tokenURI_M, _timeStart, _timeStop);
         super._changeTokenURI_M( tokenId, tokenURI_M, timeStart, timeStop);
@@ -71,6 +79,15 @@ contract M_NFT is ERC721, ERC721URIStorage, Ownable {
         _burn(tokenId);
     } 
 
+    function _approveMNF(address to, uint256 tokenId) public onlyOwner {
+        _tokenApprovalsMNFT[tokenId] = to;
+    }
+
+    function() public payable returns (uint256)
+    {
+        // if (msg.value > 0)
+        //     Deposit(msg.sender, msg.value);
+    }
 
     // function bytesBase() public view returns (bytes) {
     //     string base = _baseURI();
