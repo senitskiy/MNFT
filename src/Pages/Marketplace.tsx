@@ -1,8 +1,9 @@
 import { useQuery, gql, QueryOptions } from "@apollo/client";
-import { Box, CircularProgress, Grid } from "@mui/material";
+import { Box, CircularProgress, Grid, List } from "@mui/material";
 import { CardMNFT } from "../Components/card-mnft/CardMNFT";
 import { Header } from "../Components/header/Header"
 import { GetAllMnftQuery, GetAllMnftQueryVariables, Query } from "../../graphql/generated";
+import { useState } from 'react';
 
 const GET_ALL_MNFT = gql`
 query getAllMNFT {
@@ -11,6 +12,16 @@ query getAllMNFT {
     name
     image
     description
+    cost
+    costAd
+    owner {
+      address
+      name
+    }
+    sponsor {
+      address
+      name
+    }
   }
 }
 `;
@@ -18,44 +29,20 @@ query getAllMNFT {
 const Marketplace = () => {
   const { data, loading, error } = useQuery<GetAllMnftQuery, GetAllMnftQueryVariables>(GET_ALL_MNFT);
 
-  if(loading) {
+  if (loading) {
     return <CircularProgress />
   }
 
   return (
     <Box p={4}>
       <Grid sx={{ height: "100%", justifyContent: "center" }} spacing={4} container>
-        <Grid item>
-          <CardMNFT />
-        </Grid>
-        <Grid item>
-          <CardMNFT />
-        </Grid>
-        <Grid item>
-          <CardMNFT />
-        </Grid>
-        <Grid item>
-          <CardMNFT />
-        </Grid>
-        <Grid item>
-          <CardMNFT />
-        </Grid>
-        <Grid item>
-          <CardMNFT />
-        </Grid>
-        <Grid item>
-          <CardMNFT />
-        </Grid>
-        <Grid item>
-          <CardMNFT />
-        </Grid>
-        <Grid item>
-          <CardMNFT />
-        </Grid>
-        <Grid item>
-          <CardMNFT />
-        </Grid>
-
+        {
+          data?.getAllMNFT?.map((mnft) => (
+            <Grid item>
+              <CardMNFT {...mnft} />
+            </Grid>
+          ))
+        }
       </Grid>
     </Box>
   );

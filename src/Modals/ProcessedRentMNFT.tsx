@@ -11,55 +11,54 @@ import { AccountContext } from './../context/AccountState';
 import { Icon28DoneOutline } from "@vkontakte/icons";
 import { gql } from '@apollo/client';
 import { useMutation } from '@apollo/client';
-import { CreateMnftMutation, CreateMnftMutationVariables } from "../../graphql/generated";
+import { CreateMnftMutation, CreateMnftMutationVariables, MutationUpdateMnftArgs, UpdateMnfMutation } from "../../graphql/generated";
+import { RentFormMNFT } from "../Pages/MNFT/rent/RentMNFT";
 
-interface ProcessedCreateNftProps {
+interface ProcessedRentMNftProps {
     open: boolean,
     onClose: () => void,
-    form: MNFTForm
+    form: RentFormMNFT
 }
 
-type Step = "upload" | "deploy" | "mint" | "create_mnft" | "approveMNFT" | null;
+type Step = "upload" | "changeMNFT" | "approveMNFT" | null;
 
 interface ContactMNFT {
     address: string,
     MNFT: any
 }
 
-const CREATE_MNFT = gql`
-mutation CreateMNFT($input: MNFTInput) {
-  createMNFT(input: $input) {
+const UPDATE_MNFT = gql`
+mutation UpdateMNF($address: String!, $input: MNFTInput) {
+  updateMNFT(address: $address, input: $input) {
     ok
   }
 }
 `;
 
-export const ProcessedCreateNft = ({ open, onClose, form }: ProcessedCreateNftProps) => {
+export const ProcessedRentMnft = ({ open, onClose, form }: ProcessedRentMNftProps) => {
     const { account } = useContext(AccountContext)
-    const [bcreateMNFT] = useMutation<CreateMnftMutation, CreateMnftMutationVariables>(CREATE_MNFT);
+    const [updateMNFT] = useMutation<UpdateMnfMutation, MutationUpdateMnftArgs>(UPDATE_MNFT);
     const [step, updateStep] = useState<Step>(null);
 
-    async function uploadToIPFS(): Promise<{ cidImage: string, cidJson: string }> {
+    async function uploadToIPFS(): Promise<{ cidImage: string }> {
         const client = new Web3Storage({ token: process.env.REACT_APP_WEB3_STORAGE_KEY });
-        const imageFile = renameFile(form.image, "0");
-        const cidImage = await client.put([imageFile]);
-        const payload = {
-            name: form.name,
-            description: form.description,
-            image: "ipfs://" + cidImage + "/0"
-        }
+        // const imageFile = renameFile(form.image, "0");
+        // const cidImage = await client.put([imageFile]);
+        // const payload = {
+        //     name: form.name,
+        //     description: form.description,
+        //     image: "ipfs://" + cidImage + "/0"
+        // }
 
-        const payloadFile = new File([
-            new Blob([
-                JSON.stringify(payload)
-            ], {
-                type: "text/plain;charset=utf-8"
-            })
-        ], "0");
+        const dataURL = form.stageRef.current.toDataURL({ pixelRatio: 2 });
+        console.log(dataURL);
 
-        const payloadCid: string = await client.put([payloadFile]);
+        const res = await fetch(dataURL);
+        const blob = await res.blob();
+        const file = new File([blob], "0", { type: "image/png" })
+        const cidImage: string = await client.put([file]);
         return {
-            cidJson: payloadCid,
+            // cidJson: payloadCid,
             cidImage: cidImage + "/0"
         };
     }
@@ -68,14 +67,14 @@ export const ProcessedCreateNft = ({ open, onClose, form }: ProcessedCreateNftPr
         return new Promise((resolve, reject) => {
             if (!account) reject();
             if (!account.web3) reject();
-            
-    
+
+
             //@ts-ignore
             const MNFT = new account.web3.eth.Contract(abi, account.address, {
                 from: account.address,
                 gas: 3000000,
             });
-    
+
             MNFT.deploy({
                 data: bs.object
             }).send({
@@ -85,7 +84,7 @@ export const ProcessedCreateNft = ({ open, onClose, form }: ProcessedCreateNftPr
                 // console.log(hash);
             }).on("receipt", async (receiptMint) => {
                 resolve({
-                    MNFT, 
+                    MNFT,
                     address: receiptMint.contractAddress
                 });
             }).on("error", (err: any) => {
@@ -117,44 +116,22 @@ export const ProcessedCreateNft = ({ open, onClose, form }: ProcessedCreateNftPr
         })
     }
 
-    async function approveMNFT(contract: ContactMNFT, cidJson: string, cidImage: string) {
-        await bcreateMNFT({
-            variables: {
-                input: {
-                    address: contract.address,
-                    creator: account.address,
-                    owner: account.address,
-                    name: form.name,
-                    description: form.description,
-                    cost: Number(form.cost),
-                    costAd: Number(form.costAd),
-                    image: `ipfs://${cidImage}`,
-                    blockchain: 0,
-                    standart: 721,
-                } 
-            }
-        })
-    }
-
     useEffect(() => {
-        async function createMnt() {
+        async function changeMnft() {
             updateStep("upload");
-            const { cidImage, cidJson } = await uploadToIPFS();
-            console.log(cidJson);
-            updateStep("deploy");
-            const receiptMint = await deployMNFT(cidJson);
-            console.log(receiptMint);
-            updateStep("mint");
-            await mintMNFT(receiptMint);
-            updateStep("create_mnft");
-            await createMNFT(receiptMint, cidJson);
-            updateStep("approveMNFT");
-            await approveMNFT(receiptMint, cidJson, cidImage);
+            const { cidImage } = await uploadToIPFS();
+            console.log(cidImage);
+            // updateStep("mint");
+            // await mintMNFT(receiptMint);
+            // updateStep("create_mnft");
+            // await createMNFT(receiptMint, cidJson);
+            // updateStep("approveMNFT");
+            // await approveMNFT(receiptMint, cidJson, cidImage);
             onClose();
         }
 
         if (open) {
-            createMnt()
+            changeMnft()
         }
     }, [open]);
 
@@ -174,19 +151,9 @@ export const ProcessedCreateNft = ({ open, onClose, form }: ProcessedCreateNftPr
                         {step === "upload" ? <CircularProgress /> : <Icon28DoneOutline height={44} width={44} />}
                         <Typography color="text.primary">Upload to IPFS</Typography>
                     </Stack>
-
                     <Stack direction="row" alignItems="center" spacing={2}>
-                        {step === "deploy" ? <CircularProgress /> : <Icon28DoneOutline height={44} width={44} />}
-                        <Typography color="text.primary">Deploy</Typography>
-                    </Stack>
-
-                    <Stack direction="row" alignItems="center" spacing={2}>
-                        {step === "mint" ? <CircularProgress /> : <Icon28DoneOutline height={44} width={44} />}
-                        <Typography color="text.primary">Mint</Typography>
-                    </Stack>
-                    <Stack direction="row" alignItems="center" spacing={2}>
-                        {step === "create_mnft" ? <CircularProgress /> : <Icon28DoneOutline height={44} width={44} />}
-                        <Typography color="text.primary">Create MNFT</Typography>
+                        {step === "changeMNFT" ? <CircularProgress /> : <Icon28DoneOutline height={44} width={44} />}
+                        <Typography color="text.primary">Change MNFT</Typography>
                     </Stack>
                     <Stack direction="row" alignItems="center" spacing={2}>
                         {step === "approveMNFT" ? <CircularProgress /> : <Icon28DoneOutline height={44} width={44} />}

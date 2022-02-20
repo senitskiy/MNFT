@@ -56,13 +56,13 @@ export type MnftInput = {
   blockchain?: InputMaybe<Scalars['Int']>;
   cost?: InputMaybe<Scalars['Int']>;
   costAd?: InputMaybe<Scalars['Int']>;
-  creator?: InputMaybe<Scalars['String']>;
+  creator?: InputMaybe<Scalars['ID']>;
   description?: InputMaybe<Scalars['String']>;
   image?: InputMaybe<Scalars['String']>;
   lastUpdate?: InputMaybe<Scalars['Date']>;
   name?: InputMaybe<Scalars['String']>;
-  owner?: InputMaybe<Scalars['String']>;
-  sponsor?: InputMaybe<Scalars['String']>;
+  owner?: InputMaybe<Scalars['ID']>;
+  sponsor?: InputMaybe<Scalars['ID']>;
   standart?: InputMaybe<Scalars['Int']>;
   symbol?: InputMaybe<Scalars['String']>;
 };
@@ -87,7 +87,7 @@ export type MnftType = {
   lastUpdate: Scalars['Date'];
   name: Scalars['String'];
   owner: UserType;
-  sponsor: UserType;
+  sponsor?: Maybe<UserType>;
   standart: MnftStandart;
   symbol?: Maybe<Scalars['String']>;
 };
@@ -201,10 +201,18 @@ export type CreateMnftMutationVariables = Exact<{
 
 export type CreateMnftMutation = { __typename?: 'Mutation', createMNFT?: { __typename?: 'createMNFT', ok?: boolean | null } | null };
 
+export type UpdateMnfMutationVariables = Exact<{
+  address: Scalars['String'];
+  input?: InputMaybe<MnftInput>;
+}>;
+
+
+export type UpdateMnfMutation = { __typename?: 'Mutation', updateMNFT?: { __typename?: 'updateMNFT', ok?: boolean | null } | null };
+
 export type GetAllMnftQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetAllMnftQuery = { __typename?: 'Query', getAllMNFT?: Array<{ __typename?: 'MNFTType', address: string, name: string, image: string, description?: string | null } | null> | null };
+export type GetAllMnftQuery = { __typename?: 'Query', getAllMNFT?: Array<{ __typename?: 'MNFTType', address: string, name: string, image: string, description?: string | null, cost: number, costAd: number, owner: { __typename?: 'UserType', address: string, name?: string | null }, sponsor?: { __typename?: 'UserType', address: string, name?: string | null } | null } | null> | null };
 
 export type GetUserQueryVariables = Exact<{
   address?: InputMaybe<Scalars['String']>;
@@ -240,6 +248,25 @@ export const useCreateMnftMutation = <
       (variables?: CreateMnftMutationVariables) => fetcher<CreateMnftMutation, CreateMnftMutationVariables>(dataSource.endpoint, dataSource.fetchParams || {}, CreateMnftDocument, variables)(),
       options
     );
+export const UpdateMnfDocument = `
+    mutation UpdateMNF($address: String!, $input: MNFTInput) {
+  updateMNFT(address: $address, input: $input) {
+    ok
+  }
+}
+    `;
+export const useUpdateMnfMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(
+      dataSource: { endpoint: string, fetchParams?: RequestInit },
+      options?: UseMutationOptions<UpdateMnfMutation, TError, UpdateMnfMutationVariables, TContext>
+    ) =>
+    useMutation<UpdateMnfMutation, TError, UpdateMnfMutationVariables, TContext>(
+      ['UpdateMNF'],
+      (variables?: UpdateMnfMutationVariables) => fetcher<UpdateMnfMutation, UpdateMnfMutationVariables>(dataSource.endpoint, dataSource.fetchParams || {}, UpdateMnfDocument, variables)(),
+      options
+    );
 export const GetAllMnftDocument = `
     query getAllMNFT {
   getAllMNFT {
@@ -247,6 +274,16 @@ export const GetAllMnftDocument = `
     name
     image
     description
+    cost
+    costAd
+    owner {
+      address
+      name
+    }
+    sponsor {
+      address
+      name
+    }
   }
 }
     `;
