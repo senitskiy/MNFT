@@ -11,7 +11,8 @@ export interface RentFormMNFT {
     timeStart?: Date,
     timeEnd?: Date,
     costAd?: number,
-    stageRef?: any
+    stageRef?: any,
+    mnft?: any
 }
 
 export const RentMNFT = () => {
@@ -130,7 +131,8 @@ export const RentMNFT = () => {
                     open={isProcessed}
                     form={{
                         ...form,
-                        stageRef
+                        stageRef,
+                        mnft: state
                     }}
                 />
             </Box>
