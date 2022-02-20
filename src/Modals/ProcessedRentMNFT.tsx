@@ -97,6 +97,7 @@ export const ProcessedRentMnft = ({ open, onClose, form }: ProcessedRentMNftProp
                 data: MNFT.methods.change_M_NFT(0, `ipfs://${cid}/0`, form.timeStart.getTime()/1000, form.timeEnd.getTime()/1000).encodeABI(),
                 gas: 3000000,
             });
+            resolve();
         });
     }
 
@@ -104,15 +105,20 @@ export const ProcessedRentMnft = ({ open, onClose, form }: ProcessedRentMNftProp
     useEffect(() => {
         async function init() {
             updateStep("upload");
-            const { cidImage, cidJson } = await uploadToIPFS();
-            console.log(cidJson);
-            changeMNFT(cidJson)
-            // updateStep("mint");
-            // await mintMNFT(receiptMint);
-            // updateStep("create_mnft");
-            // await createMNFT(receiptMint, cidJson);
-            // updateStep("approveMNFT");
-            // await approveMNFT(receiptMint, cidJson, cidImage);
+            const { cidJson, cidImage } = await uploadToIPFS();
+            updateStep("changeMNFT"); 
+            await changeMNFT(cidJson)
+            updateStep("approveMNFT"); 
+            await updateMNFT({
+                variables: {
+                    address: form.mnft.address,
+                    input: {
+                        address: form.mnft.address,
+                        image: `ipfs://${cidImage}`,
+                        sponsor: account.address
+                    }
+                }
+            })
             onClose();
         }
 
