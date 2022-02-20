@@ -15,11 +15,11 @@ const TypographyNickname = styled(Typography)(({ theme }) => ({
 
 export const CellUser = ({ name, image, title = 'master' }: CellUserProps) => {
     return (
-        <Stack spacing={1}>
+        <Stack spacing={1} p={1}>
             <Typography variant="subtitle2" color="text.secondary">{title}</Typography>
             <Stack direction="row" alignItems="center" spacing={1} justifyContent="center">
                 <Avatar src={image} sx={{ height: 36, width: 36 }} />
-                <TypographyNickname>{name}</TypographyNickname>
+                <TypographyNickname maxWidth={200}>{name}</TypographyNickname>
             </Stack>
         </Stack>
     );

@@ -21,11 +21,11 @@ interface ImageEditorProps {
   size: number;
   image: CanvasImageSource | any;
   ADVImageUrl: any;
+  stageRef: any;
 }
 
 export const ImageEditor = (props: ImageEditorProps) => {
-    
-  const stageRef = useRef<any>();
+  const { stageRef } = props; 
   const [selectADV, setSelectADV] = useState<boolean>(true);
   const [stageSize, setStageSize] = useState<stageSizeProps>({
     width: 0,
@@ -50,18 +50,6 @@ export const ImageEditor = (props: ImageEditorProps) => {
       flexDirection: "row",
       justifyContent: "space-between",
     },
-  };
-
-  const MakeNFT = () => {
-    if (stageRef.current) {
-      const dataURL = stageRef.current.toDataURL({ pixelRatio: 2 });
-      let link = document.createElement("a");
-      link.download = "MNFT.png";
-      link.href = dataURL;
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-    }
   };
 
   return (

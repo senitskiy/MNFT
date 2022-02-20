@@ -10,10 +10,26 @@ const Paper = styled(MuiPaper)(({ theme }) => ({
     backgroundColor: theme.palette.grey[900],
 }))
 
-export const CardMNFT = () => {
+interface CardMNFTProps {
+    address?: string
+    name?: string,
+    cost?: number,
+    costAd?: number,
+    image?: string,
+    sponsor?: {
+        address: string,
+        name?: string
+    },
+    owner?: {
+        address: string,
+        name?: string
+    }   
+}
 
+export const CardMNFT = (props: CardMNFTProps) => {
+    const { name, cost, costAd, image, address, sponsor, owner } = props;
     const nav = useNavigate();
-    const { pathname,  } = useLocation()
+    const { pathname } = useLocation()
 
     return (
         <Paper sx={{
@@ -23,33 +39,34 @@ export const CardMNFT = () => {
                 p={1}
                 component="div"
                 sx={{
+                    width: 400,
                     display: "flex",
                     flexDirection: "column",
                     alignItems: "center"
                 }}
             >
-                <Stack direction="row" spacing={1} p={1}>
+                <Stack direction="row" width={400} spacing={1} p={1}>
                     <CellUser
                         title="Owner"
-                        name="@semgoSE"
+                        name={owner?.name ? `@${owner?.name}` : owner?.address}
                         image="https://img.rarible.com/prod/image/upload/t_avatar_big/prod-users/0x0271e8197f31a493629baab075295b8e5fa33aad/avatar/QmYmAr3DjoDaozskiFD7g8YJ9sNd8JMmFdACfhFALNCm32"
                     />
-                    <CellUser
-                        name="@mediacontent"
+                    {sponsor && <CellUser
+                        name={sponsor?.name ? `@${sponsor?.name}` : sponsor?.address}
                         title="Sponsor"
                         image="https://img.rarible.com/prod/image/upload/t_avatar_big/prod-users/0x0271e8197f31a493629baab075295b8e5fa33aad/avatar/QmYmAr3DjoDaozskiFD7g8YJ9sNd8JMmFdACfhFALNCm32"
-                    />
+                    />}
                 </Stack>
-                <Image src="https://ipfs.io/ipfs/bafybeig7nf2glzhanp5ecwh42qjv6cp42tj77u4sjdigox623hlap3n3xe/0" width={300} height={300} />
-                <Typography variant="h2" align="left" sx={{ width: "100%" }} p={1}>Name of composition</Typography>
-                <Typography variant="h3" align="left" sx={{ width: "100%" }} p={1}>100$ - 1$/day</Typography>
+                <Image src={`https://ipfs.io/ipfs/${image?.split("//")[1]}`} width={300} height={300} />
+                <Typography variant="h2" align="left" sx={{ width: "100%" }} p={1}>{name}</Typography>
+                <Typography variant="h3" align="left" sx={{ width: "100%" }} p={1}>{cost}$ - {costAd}$/day</Typography>
                 <Stack direction="row" spacing={1}>
-                    <Button sx={{
+                    <Button onClick={() => nav('/rent/' + address, { state: props })} sx={{
                         backgroundColor: "#414144",
                         color: "text.primary",
                         fontWeight: 700
                     }}>Rent AD</Button>
-                    <Button variant="text" onClick={() => nav('/mnft')}>View more</Button>
+                    <Button variant="text" onClick={() => nav('/mnft/' + address, { state: props })}>View more</Button>
                 </Stack>
             </Box>
         </Paper>
