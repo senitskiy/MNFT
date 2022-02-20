@@ -1,6 +1,6 @@
 {
 	"compiler": {
-		"version": "0.8.11+commit.d7f03943"
+		"version": "0.8.12+commit.f00d7308"
 	},
 	"language": "Solidity",
 	"output": {
@@ -347,7 +347,7 @@
 	},
 	"settings": {
 		"compilationTarget": {
-			"ERC721/IERC721.sol": "IERC721"
+			"contracts/ERC721/IERC721.sol": "IERC721"
 		},
 		"evmVersion": "london",
 		"libraries": {},
@@ -361,7 +361,7 @@
 		"remappings": []
 	},
 	"sources": {
-		"ERC721/IERC721.sol": {
+		"contracts/ERC721/IERC721.sol": {
 			"keccak256": "0xe004c572f3f4b694de212eaf375cc980f093f881dba3348223d1f14351483fe7",
 			"license": "MIT",
 			"urls": [
@@ -369,7 +369,7 @@
 				"dweb:/ipfs/QmbNqZt7NHgyZChg8WodkCBwH2tdaYBXc8mf7499CqmCjR"
 			]
 		},
-		"utils/introspection/IERC165.sol": {
+		"contracts/utils/introspection/IERC165.sol": {
 			"keccak256": "0x447a5f3ddc18419d41ff92b3773fb86471b1db25773e07f877f548918a185bf1",
 			"license": "MIT",
 			"urls": [

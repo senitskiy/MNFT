@@ -37,7 +37,7 @@ const Marketplace = () => {
     <Box p={4}>
       <Grid sx={{ height: "100%", justifyContent: "center" }} spacing={4} container>
         {
-          data.getAllMNFT?.map((mnft) => (
+          data?.getAllMNFT?.map((mnft) => (
             <Grid item>
               <CardMNFT {...mnft} />
             </Grid>
