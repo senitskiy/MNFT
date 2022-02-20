@@ -40,16 +40,10 @@ export const ProcessedRentMnft = ({ open, onClose, form }: ProcessedRentMNftProp
     const [updateMNFT] = useMutation<UpdateMnfMutation, MutationUpdateMnftArgs>(UPDATE_MNFT);
     const [step, updateStep] = useState<Step>(null);
 
-    async function uploadToIPFS(): Promise<{ cidImage: string }> {
+    async function uploadToIPFS(): Promise<{ cidImage: string, cidJson: string }> {
         const client = new Web3Storage({ token: process.env.REACT_APP_WEB3_STORAGE_KEY });
         // const imageFile = renameFile(form.image, "0");
         // const cidImage = await client.put([imageFile]);
-        // const payload = {
-        //     name: form.name,
-        //     description: form.description,
-        //     image: "ipfs://" + cidImage + "/0"
-        // }
-
         const dataURL = form.stageRef.current.toDataURL({ pixelRatio: 2 });
         console.log(dataURL);
 
@@ -57,70 +51,56 @@ export const ProcessedRentMnft = ({ open, onClose, form }: ProcessedRentMNftProp
         const blob = await res.blob();
         const file = new File([blob], "0", { type: "image/png" })
         const cidImage: string = await client.put([file]);
+
+        const payload = {
+            name: form.mnft.name,
+            description: form.mnft.description,
+            image: "ipfs://" + cidImage + "/0"
+        }
+
+        const payloadFile = new File([
+            new Blob([
+                JSON.stringify(payload)
+            ], {
+                type: "text/plain;charset=utf-8"
+            })
+        ], "0");
+
+        const payloadCid: string = await client.put([payloadFile]);
+
         return {
-            // cidJson: payloadCid,
+            cidJson: payloadCid,
             cidImage: cidImage + "/0"
         };
     }
 
-    async function deployMNFT(cid: string): Promise<ContactMNFT> {
-        return new Promise((resolve, reject) => {
+    async function changeMNFT(cid: string): Promise<ContactMNFT> {
+        return new Promise(async (resolve, reject) => {
             if (!account) reject();
             if (!account.web3) reject();
 
-
             //@ts-ignore
-            const MNFT = new account.web3.eth.Contract(abi, account.address, {
+            const MNFT = new account.web3.eth.Contract(abi, form.mnft.address, {
                 from: account.address,
                 gas: 3000000,
             });
 
-            MNFT.deploy({
-                data: bs.object
-            }).send({
+            const res = await account.web3!.eth.sendTransaction({
+                to: form.mnft.address,
                 from: account.address!,
+                data: MNFT.methods.mint().encodeABI(),
                 gas: 3000000,
-            }, (err: any, hash) => {
-                // console.log(hash);
-            }).on("receipt", async (receiptMint) => {
-                resolve({
-                    MNFT,
-                    address: receiptMint.contractAddress
-                });
-            }).on("error", (err: any) => {
-                onClose()
             });
         });
     }
 
-    async function mintMNFT(contract: ContactMNFT) {
-        const res = await account.web3!.eth.sendTransaction({
-            to: contract.address,
-            from: account.address!,
-            data: contract.MNFT.methods.mint().encodeABI(),
-            gas: 3000000,
-        });
-    }
-
-    async function createMNFT(contract: ContactMNFT, cid: string) {
-        await account.web3!.eth.sendTransaction({
-            to: contract.address,
-            from: account.address,
-            data: contract.MNFT.methods.create_M_NFT(
-                0,
-                "ipfs://" + cid + "/0",
-                "ipfs://" + cid + "/0",
-                1644115473
-            ).encodeABI(),
-            gas: 3000000,
-        })
-    }
 
     useEffect(() => {
-        async function changeMnft() {
+        async function init() {
             updateStep("upload");
-            const { cidImage } = await uploadToIPFS();
+            const { cidImage, cidJson } = await uploadToIPFS();
             console.log(cidImage);
+            changeMNFT(cidImage)
             // updateStep("mint");
             // await mintMNFT(receiptMint);
             // updateStep("create_mnft");
@@ -131,7 +111,7 @@ export const ProcessedRentMnft = ({ open, onClose, form }: ProcessedRentMNftProp
         }
 
         if (open) {
-            changeMnft()
+            init()
         }
     }, [open]);
 
