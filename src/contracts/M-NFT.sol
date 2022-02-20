@@ -65,7 +65,7 @@ contract M_NFT is ERC721, ERC721URIStorage, Ownable {
 
     function change_M_NFT(uint256 tokenId, string memory tokenURI_M, uint64 timeStart, uint64 timeStop)
         public
-        onlyOwner
+        // onlyOwner
         //sponsor
     {        
         // super._setTokenURI_M(tokenId, tokenURI, tokenURI_M, _timeStart, _timeStop);
