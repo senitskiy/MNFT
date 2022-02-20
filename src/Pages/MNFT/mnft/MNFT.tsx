@@ -3,8 +3,11 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { CellUser } from "../../../Components/cell-user/CellUser";
 import { Image } from "../../../Components/image/Image";
 import { CardHistory } from "./../../../Components/card-history/CardHistory";
+import { ModalError } from './../../../Modals/ModalError';
+import { useState } from 'react';
 
 export const MNFT = () => {
+  const [isError, setIsError] = useState(false);
   const { state } = useLocation();
   console.log(state);
   const nav = useNavigate();
@@ -83,7 +86,7 @@ export const MNFT = () => {
                 >
                   Rent AD
                 </Button>
-                <Button size="large" color="secondary">
+                <Button size="large" color="secondary" onClick={() => setIsError(true)}>
                   Buy for 4.4 ETH
                 </Button>
                 <Button
@@ -109,6 +112,7 @@ export const MNFT = () => {
           </Box>
         </div>
       </div>
+      <ModalError open={isError} onClose={() => setIsError(false)} />
     </Box>
   );
 };
