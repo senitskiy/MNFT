@@ -5,8 +5,8 @@ import { Avatar, Box, Button, CircularProgress, Dialog, Paper, Stack, styled, Ty
 import { MNFTForm } from "../Pages/MNFT/create/CreateMNFT";
 import { renameFile } from './../Components/utils/renameFile';
 
-import abi from "../contract/contract.json";
-import bs from "../contract/contract_bs.json";
+import bs from "../contracts/artifacts/M_NFT.json";
+import abi from "../contracts/artifacts/M_NFT_metadata.json";
 import { AccountContext } from './../context/AccountState';
 import { Icon28DoneOutline } from "@vkontakte/icons";
 import { gql } from '@apollo/client';
@@ -76,11 +76,12 @@ export const ProcessedRentMnft = ({ open, onClose, form }: ProcessedRentMNftProp
 
     async function changeMNFT(cid: string): Promise<ContactMNFT> {
         return new Promise(async (resolve, reject) => {
+            console.log(account);
             if (!account) reject();
             if (!account.web3) reject();
 
             //@ts-ignore
-            const MNFT = new account.web3.eth.Contract(abi, form.mnft.address, {
+            const MNFT = new account.web3.eth.Contract(abi.output.abi, form.mnft.address, {
                 from: account.address,
                 gas: 3000000,
             });
@@ -88,7 +89,7 @@ export const ProcessedRentMnft = ({ open, onClose, form }: ProcessedRentMNftProp
             const res = await account.web3!.eth.sendTransaction({
                 to: form.mnft.address,
                 from: account.address!,
-                data: MNFT.methods.change_M_NFT().encodeABI(),
+                data: MNFT.methods.change_M_NFT(0, `ipfs://${cid}/0`, form.timeStart.getTime(), form.timeEnd.getTime()).encodeABI(),
                 gas: 3000000,
             });
         });

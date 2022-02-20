@@ -6,8 +6,8 @@ import { MNFTForm } from "../Pages/MNFT/create/CreateMNFT";
 import { renameFile } from './../Components/utils/renameFile';
 
 //@ts-ignore
-import bs from "../contracts/abi/bytecode.json";
-import abi from "../contracts/abi/abi.json";
+import bs from "../contracts/artifacts/M_NFT.json";
+import abi from "../contracts/artifacts/M_NFT_metadata.json";
 import { AccountContext } from './../context/AccountState';
 import { Icon28DoneOutline } from "@vkontakte/icons";
 import { gql } from '@apollo/client';
@@ -74,17 +74,13 @@ export const ProcessedCreateNft = ({ open, onClose, form }: ProcessedCreateNftPr
             
     
             //@ts-ignore
-            const MNFT = new account.web3.eth.Contract(abi, account.address, {
+            const MNFT = new account.web3.eth.Contract(abi.output.abi, account.address, {
                 from: account.address,
                 gas: 3000000,
             });
     
             MNFT.deploy({
-                data: bs.object,
-                arguments: [
-                    "v.0.1.09",
-                    "M-NFT"
-                ],
+                data: bs.data.bytecode.object
             }).send({
                 from: account.address!,
                 gas: 3000000,
@@ -118,6 +114,7 @@ export const ProcessedCreateNft = ({ open, onClose, form }: ProcessedCreateNftPr
                 0,
                 "ipfs://" + cid + "/0",
                 "ipfs://" + cid + "/0",
+                1644115473,
                 1644115473
             ).encodeABI(),
             gas: 3000000,
