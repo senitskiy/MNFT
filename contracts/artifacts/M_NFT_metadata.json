@@ -105,6 +105,37 @@
 				"type": "event"
 			},
 			{
+				"inputs": [],
+				"name": "Sponsor",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "to",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256",
+						"name": "tokenId",
+						"type": "uint256"
+					}
+				],
+				"name": "_approveMNF",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
 				"inputs": [
 					{
 						"internalType": "uint256",
@@ -133,6 +164,19 @@
 				"name": "approve",
 				"outputs": [],
 				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "approveMNF",
+				"outputs": [
+					{
+						"internalType": "bool",
+						"name": "",
+						"type": "bool"
+					}
+				],
+				"stateMutability": "view",
 				"type": "function"
 			},
 			{
@@ -615,11 +659,11 @@
 			]
 		},
 		"contracts/M-NFT.sol": {
-			"keccak256": "0xb51c7a8c9d38618e840569d3d2ce6fc87c31ce940ebaa2bd2c111fc8dcb53958",
+			"keccak256": "0xc14dcab20aa89acf5bba66797c8a82523ab5d69a15ff839027cdfc725d953db6",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://0aa763b803f4d2967098b45b26025a5aded6e172428451622b2a494e5660e9bf",
-				"dweb:/ipfs/QmcE9PSAxkS9zGRwwhRdkUBgn41VrMFgrzwW3LYohvbPyk"
+				"bzz-raw://1a76a876258bc5d5aeff302e7cb146b05dcd38e4a9d668d133e778ecbd1eb507",
+				"dweb:/ipfs/QmTD1amMDK8qZweeNUFJuaykCBSxjKCpp6D2UfnfvmVQW7"
 			]
 		},
 		"contracts/utils/Address.sol": {
